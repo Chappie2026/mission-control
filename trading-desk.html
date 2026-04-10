@@ -1,49 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trading Desk | Mission Control</title>
   <style>
-    :root{--bg:#f4f8fb;--panel:#fff;--text:#102a43;--muted:#486581;--line:#d9e2ec;--accent:#2cb1bc;--success:#1f9d55;--danger:#d64545;--shadow:0 16px 40px rgba(16,42,67,.08);--radius:22px;--max:1100px}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:var(--bg)}
-    .top-bar{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:100}
-    .top-bar a{color:var(--accent);font-weight:700;font-size:.95rem}
-    .top-bar h1{font-size:1.1rem;margin:0}
-    .wrap{max-width:var(--max);margin:0 auto;padding:32px 28px;display:grid;gap:20px;grid-template-columns:1fr 1fr}
-    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
-    .card h2{font-size:1.05rem;margin:0 0 16px}
-    .row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+    :root{--bg:#0d1b2a;--panel:#1a2d42;--panel-soft:#1e3350;--text:#e2eaf3;--muted:#8aa5bf;--line:#2a3f55;--accent:#2cb1bc;--success:#2ec46a;--danger:#e05555;--warning:#f0b429;--accent-3:#9b5de5;--radius:14px}
+    [data-theme="light"]{--bg:#f4f8fb;--panel:#fff;--panel-soft:#eef4f8;--text:#102a43;--muted:#486581;--line:#d9e2ec}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:100;background:var(--panel);border-bottom:1px solid var(--line);padding:12px 24px;display:flex;align-items:center;gap:16px}
+    .topbar-logo{font-weight:800;font-size:1.1rem;color:var(--accent);text-decoration:none}
+    .topbar-title{font-weight:700;font-size:1rem;flex:1}
+    .topbar-btn{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--panel-soft);color:var(--text);font-weight:700;font-size:.85rem;cursor:pointer}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+    .card h2{font-size:1rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .full{grid-column:1/-1}
+    .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:.88rem}
     .row:last-child{border-bottom:none}
     .row .val{font-weight:700}
-    .full{grid-column:1/-1}
-    .notice{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.3);border-radius:14px;padding:16px 20px;font-size:.88rem;color:#7a5c00;margin-top:4px}
+    .notice{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.3);border-radius:12px;padding:14px 18px;font-size:.85rem;color:var(--warning);margin-top:4px;line-height:1.5}
+    .status-badge{display:inline-block;padding:3px 12px;border-radius:999px;font-size:.72rem;font-weight:800;text-transform:uppercase}
+    .status-live{background:rgba(46,196,106,.15);color:var(--success)}
+    .status-building{background:rgba(44,177,188,.15);color:var(--accent)}
+    .status-broken{background:rgba(224,85,85,.15);color:var(--danger)}
+    .signal-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+    .signal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .signal-pair{font-weight:800;font-size:1.1rem}
+    .signal-dir{font-weight:800;font-size:.85rem}
+    .dir-long{color:var(--success)}
+    .dir-short{color:var(--danger)}
+    .signal-conf{font-size:.78rem;color:var(--muted)}
+    .signal-reason{font-size:.82rem;color:var(--muted);margin-top:8px;line-height:1.5}
+    .log-entry{padding:8px 0;border-bottom:1px solid var(--line);font-size:.82rem}
+    .log-time{color:var(--muted);font-size:.72rem}
+    @media(max-width:768px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <div class="top-bar"><a href="./whiteboard.html">← Mission Control</a><h1>Trading Desk</h1></div>
+  <div class="topbar">
+    <a href="whiteboard.html" class="topbar-logo">🤖 Chappie</a>
+    <div class="topbar-title">Trading Desk</div>
+    <button class="topbar-btn" onclick="toggleTheme()">🌓</button>
+  </div>
   <div class="wrap">
-    <div class="card">
-      <h2>📊 Trader Joe — Status</h2>
-      <div class="row"><span>Mode</span><span class="val">Paper Trading</span></div>
-      <div class="row"><span>Exchange</span><span class="val">BTCC</span></div>
-      <div class="row"><span>Kraken Access</span><span class="val">Read-Only ✓</span></div>
-      <div class="row"><span>Real Money Risk</span><span class="val" style="color:var(--success)">None</span></div>
-      <div class="row"><span>Status</span><span class="val" style="color:var(--accent)">Active</span></div>
+    <div class="grid">
+      <div class="card">
+        <h2>📊 Trader Joe</h2>
+        <div class="row"><span>Status</span><span class="status-badge status-building">BUILDING</span></div>
+        <div class="row"><span>Model</span><span class="val">Qwen 3.6 Plus</span></div>
+        <div class="row"><span>Mode</span><span class="val">Paper Trading</span></div>
+        <div class="row"><span>Exchange</span><span class="val">BTCC / Kraken</span></div>
+        <div class="row"><span>Real Money Risk</span><span class="val" style="color:var(--success)">None</span></div>
+        <div class="row"><span>Trades Today</span><span class="val">0</span></div>
+        <div class="row"><span>Win Rate (7d)</span><span class="val">—</span></div>
+      </div>
+      <div class="card">
+        <h2>🔭 Macro Scout</h2>
+        <div class="row"><span>Status</span><span class="status-badge status-building">BUILDING</span></div>
+        <div class="row"><span>Role</span><span class="val">Market Research</span></div>
+        <div class="row"><span>Trade Execution</span><span class="val" style="color:var(--danger)">Disabled</span></div>
+        <div class="row"><span>Focus</span><span class="val">Macro catalysts</span></div>
+        <div class="row"><span>Feeds into</span><span class="val">Trader Joe</span></div>
+      </div>
+      <div class="card full">
+        <h2>⚠️ Trading Rules</h2>
+        <div class="notice">
+          <strong>Paper trading only</strong> until Jason explicitly approves live trading.<br>
+          Macro Scout has <strong>zero execution authority</strong>. All live trade decisions require Jason approval.<br>
+          Position sizing rules must be defined before going live.
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h2>🔭 Macro Scout — Status</h2>
-      <div class="row"><span>Role</span><span class="val">Market Research Only</span></div>
-      <div class="row"><span>Trade Execution</span><span class="val" style="color:var(--danger)">Disabled</span></div>
-      <div class="row"><span>Focus</span><span class="val">Macro catalysts</span></div>
-      <div class="row"><span>Feeds into</span><span class="val">Trader Joe planning</span></div>
-      <div class="row"><span>Status</span><span class="val" style="color:var(--accent)">Watching</span></div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h2>📡 Recent Signals</h2>
+      <div id="signals" style="color:var(--muted);font-size:.9rem">Trader Joe bot not yet deployed — signals will appear here once active</div>
     </div>
-    <div class="card full">
-      <h2>⚠️ Trading Rules</h2>
-      <div class="notice">Paper trading only until Jason explicitly approves live trading. Macro Scout has zero execution authority. All live trade decisions require Jason approval. Position sizing rules must be defined before going live.</div>
+
+    <div class="card">
+      <h2>📝 Trade Log</h2>
+      <div id="log" style="color:var(--muted);font-size:.9rem">No trades yet — paper trading begins when bot is deployed</div>
     </div>
   </div>
+  <script>
+    function toggleTheme(){const h=document.documentElement;h.setAttribute('data-theme',h.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('theme',h.getAttribute('data-theme'))}
+    const s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);
+  </script>
 </body>
 </html>
