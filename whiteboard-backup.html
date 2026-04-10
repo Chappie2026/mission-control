@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chappie Mission Control | Jason Command Board</title>
+  <style>
+    :root {
+      --bg: #f4f8fb;
+      --panel: #ffffff;
+      --panel-soft: #eef4f8;
+      --panel-dark: #102a43;
+      --text: #102a43;
+      --muted: #486581;
+      --line: #d9e2ec;
+      --accent: #2cb1bc;
+      --accent-2: #f0b429;
+      --accent-3: #7c3aed;
+      --danger: #d64545;
+      --success: #1f9d55;
+      --shadow: 0 16px 40px rgba(16, 42, 67, 0.08);
+      --radius: 22px;
+      --max: 1480px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(44,177,188,0.08), transparent 22%),
+        radial-gradient(circle at left top, rgba(124,58,237,0.05), transparent 18%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4f8 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap {
+      width: min(100% - 28px, var(--max));
+      margin: 0 auto;
+      padding: 26px 0 48px;
+    }
+
+    h1, h2, h3, h4 { margin: 0; line-height: 1.08; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .main-col {
+      min-width: 0;
+    }
+
+    .side-nav {
+      position: sticky;
+      top: 20px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .side-nav .head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,250,253,0.96));
+    }
+
+    .side-nav .head h2 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .side-nav .head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .nav-list {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.96rem;
+    }
+
+    .nav-link small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-panel, .panel, .project-card, .timeline-card, .system-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-panel {
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(16,42,67,0.98), rgba(29,69,103,0.96));
+      color: #edf5fb;
+    }
+
+    .hero-panel h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      letter-spacing: -0.05em;
+      margin-bottom: 12px;
+      color: inherit;
+    }
+
+    .hero-panel p { color: rgba(237,245,251,0.84); margin: 0; max-width: 68ch; }
+
+    .pill-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #e9f3fb;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      align-content: start;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat small, .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .stat small {
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.6rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(246,250,253,0.96));
+    }
+
+    .panel-head h2 {
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .panel-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .panel-body {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .project-grid, .system-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .project-card, .system-card {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,251,255,0.98));
+    }
+
+    .project-card h3, .system-card h3 {
+      margin: 8px 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .project-card p, .project-card li, .timeline-card p, .timeline-card li, .system-card p, .system-card li { color: var(--muted); }
+    .project-card ul, .timeline-card ul, .system-card ul { margin: 10px 0 0; padding-left: 18px; }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .tag.teal { background: rgba(44,177,188,0.12); color: #13727a; }
+    .tag.gold { background: rgba(240,180,41,0.18); color: #8b6200; }
+    .tag.purple { background: rgba(124,58,237,0.14); color: #5a2aad; }
+    .tag.red { background: rgba(214,69,69,0.13); color: #a93030; }
+    .tag.green { background: rgba(31,157,85,0.12); color: #15713d; }
+    .tag.slate { background: rgba(72,101,129,0.12); color: #39546b; }
+
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .lane {
+      border-radius: 20px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .lane-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-soft);
+    }
+
+    .lane-head h3 {
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    .lane-body {
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .task {
+      border-radius: 18px;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .task h4 {
+      margin: 8px 0 8px;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
+    }
+
+    .task p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .mini-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+    }
+
+    .mini-list span:last-child {
+      color: var(--text);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .timeline-card {
+      padding: 18px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 1260px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .side-nav {
+        position: static;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .hero, .dashboard-grid, .project-grid, .kanban, .timeline-grid, .system-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="layout">
+      <div class="main-col">
+        <section class="hero">
+          <div class="hero-panel">
+            <h1>Chappie Mission Control</h1>
+            <p>A live visual command board for Jason’s projects, ideas, workflow, blockers, and next moves. This is the working overview so nothing important gets buried in chat.</p>
+            <div class="pill-row">
+              <span class="pill">Visionary Solution</span>
+              <span class="pill">TrueNorth</span>
+              <span class="pill">Debt/Zero</span>
+              <span class="pill">Agent Operations</span>
+              <span class="pill">Telegram Workspace</span>
+            </div>
+          </div>
+
+          <div class="summary">
+            <div class="stat">
+              <small>Active Projects</small>
+              <strong>4</strong>
+              <span>Core initiatives being tracked</span>
+            </div>
+            <div class="stat">
+              <small>Main Focus</small>
+              <strong>Website + Ops</strong>
+              <span>Public brand plus working systems</span>
+            </div>
+            <div class="stat">
+              <small>Telegram Workspace</small>
+              <strong>Configured</strong>
+              <span>Private group allowed, mention wall removed</span>
+            </div>
+            <div class="stat">
+              <small>Priority Mode</small>
+              <strong>Clarity</strong>
+              <span>Simple, usable, high-signal execution</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Project Command Board</h2>
+              <p>The current state of the main workstreams.</p>
+            </div>
+            <div class="panel-body">
+              <div class="project-grid">
+                <article class="project-card">
+                  <span class="tag teal">Website</span>
+                  <h3>Visionary Solution</h3>
+                  <p>Public-facing umbrella brand and website front door.</p>
+                  <ul>
+                    <li>Homepage visually upgraded</li>
+                    <li>Founder/trust layer added</li>
+                    <li>Still needs contact details and live QA</li>
+                  </ul>
+                </article>
+
+                <article class="project-card">
+                  <span class="tag purple">Offer</span>
+                  <h3>TrueNorth</h3>
+                  <p>Bottleneck-finding and mission-control style business support offer.</p>
+                  <ul>
+                    <li>Direction locked</li>
+                    <li>Needs exact packaging and deliverables</li>
+                  </ul>
+                </article>
+
+                <article class="project-card">
+                  <span class="tag gold">Offer</span>
+                  <h3>Debt/Zero</h3>
+                  <p>Debt payoff and cash-flow clarity side built for everyday people.</p>
+                  <ul>
+                    <li>Brand direction present</li>
+                    <li>Needs more assets and service definition</li>
+                  </ul>
+                </article>
+
+                <article class="project-card">
+                  <span class="tag green">Systems</span>
+                  <h3>Agent Operations</h3>
+                  <p>Internal AI org design, safety rules, reporting loops, and live execution systems.</p>
+                  <ul>
+                    <li>Phase 1 complete</li>
+                    <li>Phase 2 moving into live operations</li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Quick Status</h2>
+              <p>Fast read on what is done, moving, and waiting.</p>
+            </div>
+            <div class="panel-body">
+              <ul class="mini-list">
+                <li><span>Telegram workspace chat</span><span>Configured</span></li>
+                <li><span>Website redesign</span><span>Done</span></li>
+                <li><span>Founder/trust section</span><span>Done</span></li>
+                <li><span>Mission control board</span><span>Done</span></li>
+                <li><span>Department memory system</span><span>Ready</span></li>
+                <li><span>Agent workspace system</span><span>Ready</span></li>
+                <li><span>Delegated task queue</span><span>Active</span></li>
+                <li><span>Secret intake system</span><span>Ready</span></li>
+                <li><span>Activity logging system</span><span>Ready</span></li>
+                <li><span>Prompt cards / boundaries</span><span>Ready</span></li>
+                <li><span>Tool trust registry</span><span>Ready</span></li>
+                <li><span>Security guardrails</span><span>Ready</span></li>
+                <li><span>Council system</span><span>Ready</span></li>
+                <li><span>Jason task queue</span><span>Ready</span></li>
+                <li><span>Review / approval queue</span><span>Ready</span></li>
+                <li><span>Maintenance department</span><span>Ready</span></li>
+                <li><span>Memory tab</span><span>Ready</span></li>
+                <li><span>Trading desk</span><span>Ready</span></li>
+                <li><span>Contact details</span><span>Waiting</span></li>
+                <li><span>Live site QA</span><span>Next</span></li>
+                <li><span>TrueNorth packaging</span><span>Active</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Workflow Lanes</h2>
+            <p>How work should move across idea, build, blockers, and completion.</p>
+          </div>
+          <div class="panel-body">
+            <div class="kanban">
+              <div class="lane">
+                <div class="lane-head">
+                  <h3>Ideas</h3>
+                  <p>Fresh concepts worth shaping.</p>
+                </div>
+                <div class="lane-body">
+                  <div class="task">
+                    <span class="tag gold">Website</span>
+                    <h4>Separate landing pages</h4>
+                    <p>Business help and money help should probably split for cleaner targeting.</p>
+                  </div>
+                  <div class="task">
+                    <span class="tag teal">Visuals</span>
+                    <h4>Logo + favicon system</h4>
+                    <p>Create a clean wordmark and minimal VS icon set.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lane">
+                <div class="lane-head">
+                  <h3>In Progress</h3>
+                  <p>Things actively being built.</p>
+                </div>
+                <div class="lane-body">
+                  <div class="task">
+                    <span class="tag teal">Live Build</span>
+                    <h4>Visionary Solution site</h4>
+                    <p>Homepage, trust layer, and structure are in motion.</p>
+                  </div>
+                  <div class="task">
+                    <span class="tag green">Systems</span>
+                    <h4>Telegram + file workflow</h4>
+                    <p>Chat, file memory, and whiteboard visibility are being tied together.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lane">
+                <div class="lane-head">
+                  <h3>Blocked / Waiting</h3>
+                  <p>Needs Jason input or final setup.</p>
+                </div>
+                <div class="lane-body">
+                  <div class="task">
+                    <span class="tag red">Waiting</span>
+                    <h4>Public contact details</h4>
+                    <p>Name, phone, and whether an email should go on the site.</p>
+                  </div>
+                  <div class="task">
+                    <span class="tag red">Waiting</span>
+                    <h4>Live verification</h4>
+                    <p>Need browser review of the final site behavior and deployment path.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lane">
+                <div class="lane-head">
+                  <h3>Done</h3>
+                  <p>Completed work with visible momentum.</p>
+                </div>
+                <div class="lane-body">
+                  <div class="task">
+                    <span class="tag green">Complete</span>
+                    <h4>Core system docs</h4>
+                    <p>Decision logs, status files, boundary rules, logging, and handoff systems are now in place.</p>
+                  </div>
+                  <div class="task">
+                    <span class="tag green">Complete</span>
+                    <h4>Mission control upgrade</h4>
+                    <p>The whiteboard now reflects project state plus core operating systems.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:16px;">
+          <div class="panel-head">
+            <h2>Delegation System</h2>
+            <p>Who should handle what so Chappie stays at the command level.</p>
+          </div>
+          <div class="panel-body">
+            <div class="timeline-grid">
+              <article class="timeline-card">
+                <span class="tag teal">Build Lane</span>
+                <h3>Website / Build AI</h3>
+                <ul>
+                  <li>Homepage edits and layout work</li>
+                  <li>Landing pages and front-end cleanup</li>
+                  <li>Escalates branding and offer shifts back to Chappie</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag gold">Research Lane</span>
+                <h3>Research + Writing AIs</h3>
+                <ul>
+                  <li>Market/tool/competitor research</li>
+                  <li>Summaries, drafts, and copy options</li>
+                  <li>Escalates strategy-impacting findings back to Chappie</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag purple">Risk Lane</span>
+                <h3>Security + Ops AIs</h3>
+                <ul>
+                  <li>Package review and workflow risk checking</li>
+                  <li>Status upkeep, file organization, and blockers</li>
+                  <li>Escalates go/no-go and cross-system issues back to Chappie</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag red">Market Intel</span>
+                <h3>Macro Scout for Trader Joe</h3>
+                <ul>
+                  <li>Watches market-moving events and macro catalysts</li>
+                  <li>Feeds context into Trader Joe planning</li>
+                  <li>Does research only, no trade execution</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag green">Maintenance</span>
+                <h3>Mender for system hygiene</h3>
+                <ul>
+                  <li>Checks stale files and drift</li>
+                  <li>Recommends cleanup and archive actions</li>
+                  <li>Keeps the empire from getting messy over time</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:16px;">
+          <div class="panel-head">
+            <h2>Operating Systems</h2>
+            <p>The rules and support systems now built underneath the empire.</p>
+          </div>
+          <div class="panel-body">
+            <div class="system-grid">
+              <article class="system-card">
+                <span class="tag slate">Workflow</span>
+                <h3>Task Handoff + Escalation</h3>
+                <ul>
+                  <li>Standard task packet format</li>
+                  <li>Escalation protocol when scope or blockers hit</li>
+                  <li>No vague assignments</li>
+                </ul>
+              </article>
+
+              <article class="system-card">
+                <span class="tag green">Review</span>
+                <h3>Approval + Logging</h3>
+                <ul>
+                  <li>Draft → internal reviewed → Jason approval → live</li>
+                  <li>Per-agent activity logs</li>
+                  <li>Shared activity rollup ready</li>
+                </ul>
+              </article>
+
+              <article class="system-card">
+                <span class="tag purple">Identity</span>
+                <h3>Prompt Cards + Boundaries</h3>
+                <ul>
+                  <li>Stable head-agent identity/persona</li>
+                  <li>Refusal rules outside expertise</li>
+                  <li>Session continuity through memory + history</li>
+                </ul>
+              </article>
+
+              <article class="system-card">
+                <span class="tag gold">Security</span>
+                <h3>Secret + Tool Safety</h3>
+                <ul>
+                  <li>Secret intake and use protocol</li>
+                  <li>Tool trust registry in place</li>
+                  <li>Sandbox-first rule for suspicious tools</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:16px;">
+          <div class="panel-head">
+            <h2>Council Chamber</h2>
+            <p>Leadership-only alignment space for Jason, Chappie, and department heads.</p>
+          </div>
+          <div class="panel-body">
+            <div class="timeline-grid">
+              <article class="timeline-card">
+                <span class="tag teal">Council</span>
+                <h3>Members</h3>
+                <ul>
+                  <li>Jason</li>
+                  <li>Chappie</li>
+                  <li>Department heads only</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag gold">Purpose</span>
+                <h3>What Council handles</h3>
+                <ul>
+                  <li>Ideas and best practices</li>
+                  <li>Cross-department alignment</li>
+                  <li>Policy and standards</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag purple">Current Agenda</span>
+                <h3>Open topics</h3>
+                <ul>
+                  <li>Agent operations best practices</li>
+                  <li>Visionary Solution positioning</li>
+                  <li>Tool trust policy</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:16px;">
+          <div class="panel-head">
+            <h2>Jason Tasks + Review Queue</h2>
+            <p>What Jason needs to do personally, and what needs Jason approval.</p>
+          </div>
+          <div class="panel-body">
+            <div class="timeline-grid">
+              <article class="timeline-card">
+                <span class="tag teal">Jason Task</span>
+                <h3>Provide public contact details</h3>
+                <ul>
+                  <li>Name to show on website</li>
+                  <li>Phone number to show on website</li>
+                  <li>Whether a public email should be shown</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag gold">Review</span>
+                <h3>Review homepage direction</h3>
+                <ul>
+                  <li>Look and feel</li>
+                  <li>Trust / clarity</li>
+                  <li>Whether it feels right before go-live</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag purple">Review</span>
+                <h3>Review system structure</h3>
+                <ul>
+                  <li>Mission control layout</li>
+                  <li>Delegation model</li>
+                  <li>Whether the empire should run this way</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:16px;">
+          <div class="panel-head">
+            <h2>Next Big Moves</h2>
+            <p>Highest-value steps from here.</p>
+          </div>
+          <div class="panel-body">
+            <div class="timeline-grid">
+              <article class="timeline-card">
+                <span class="tag teal">Next</span>
+                <h3>Finish website trust + conversion</h3>
+                <ul>
+                  <li>Add real contact details</li>
+                  <li>Add form or CTA routing</li>
+                  <li>Review live rendering end to end</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag gold">Next</span>
+                <h3>Define TrueNorth offer clearly</h3>
+                <ul>
+                  <li>What is delivered</li>
+                  <li>Who it is for</li>
+                  <li>How it is packaged and sold</li>
+                </ul>
+              </article>
+
+              <article class="timeline-card">
+                <span class="tag purple">Next</span>
+                <h3>Turn structure into live loops</h3>
+                <ul>
+                  <li>Use task handoffs for real work</li>
+                  <li>Write logs as work completes</li>
+                  <li>Keep mission control current from operations</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <p class="footer-note">Mission Control now reflects both the project state and the operating system underneath it. Next step is making the loops run consistently in practice.</p>
+      </div>
+
+      <aside class="side-nav">
+        <div class="head">
+          <h2>Control Tabs</h2>
+          <p>Quick access to the main screens on the right side.</p>
+        </div>
+        <div class="nav-list">
+          <a class="nav-link" href="./projects.html">Project Screen<small>All projects, owners, status, next actions</small></a>
+          <a class="nav-link" href="./calendar.html">Task Calendar<small>Due timing, owners, review needs</small></a>
+          <a class="nav-link" href="./tasks.html">Task Detail View<small>Active delegated task cards</small></a>
+          <a class="nav-link" href="./council.html">Council Chamber<small>Leadership-only strategy and standards</small></a>
+          <a class="nav-link" href="./department-dashboards.html">Department Dashboards<small>Head departments and current focus</small></a>
+          <a class="nav-link" href="./risk.html">Risk Register<small>Open business, tool, and execution risks</small></a>
+          <a class="nav-link" href="./intake.html">Intake Queue<small>New work before routing</small></a>
+          <a class="nav-link" href="./memory.html">Memory<small>Daily memory, long-term memory, key history</small></a>
+          <a class="nav-link" href="./trading-desk.html">Trading Desk<small>Macro Scout + Trader Joe market context</small></a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

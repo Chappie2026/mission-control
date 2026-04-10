@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nova Leads | Mission Control</title>
+  <style>
+    :root {
+      --bg: #f4f8fb; --panel: #ffffff; --panel-soft: #eef4f8;
+      --text: #102a43; --muted: #486581; --line: #d9e2ec;
+      --accent: #2cb1bc; --accent2: #f0b429; --success: #1f9d55;
+      --danger: #d64545; --shadow: 0 8px 32px rgba(16,42,67,.08);
+      --radius: 18px; --max: 1100px;
+    }
+    [data-theme="dark"] {
+      --bg: #0d1b2a; --panel: #1a2d42; --panel-soft: #1e3350;
+      --text: #e2eaf3; --muted: #8aa5bf; --line: #2a3f55;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    .top-bar {
+      background: var(--panel); border-bottom: 1px solid var(--line);
+      padding: 14px 28px; display: flex; align-items: center; gap: 16px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .top-bar a { color: var(--accent); font-weight: 700; font-size: .9rem; text-decoration: none; }
+    .top-bar h1 { font-size: 1.1rem; flex: 1; }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 28px; }
+
+    /* STATS ROW */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+    }
+    .stat-card small { display: block; color: var(--muted); font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px; }
+    .stat-card strong { font-size: 2rem; letter-spacing: -.03em; display: block; margin-bottom: 4px; }
+    .stat-card span { font-size: .82rem; color: var(--muted); }
+
+    /* TABLE */
+    .table-card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .table-header {
+      padding: 18px 24px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .table-header h2 { font-size: 1.05rem; flex: 1; }
+    .refresh-btn {
+      padding: 8px 16px; background: var(--panel-soft); border: 1.5px solid var(--line);
+      border-radius: 10px; font-size: .85rem; font-weight: 700; cursor: pointer; color: var(--text);
+    }
+    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .export-btn {
+      padding: 8px 16px; background: var(--accent); border: none;
+      border-radius: 10px; font-size: .85rem; font-weight: 700; cursor: pointer; color: white;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--panel-soft); }
+    th { padding: 12px 20px; text-align: left; font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1px solid var(--line); }
+    td { padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: .88rem; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--panel-soft); }
+
+    .plan-badge {
+      display: inline-flex; padding: 3px 10px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800; text-transform: uppercase;
+    }
+    .plan-snowball { background: rgba(44,177,188,.12); color: #1a8a94; }
+    .plan-avalanche { background: rgba(124,58,237,.1); color: #6025c0; }
+    .plan-hybrid { background: rgba(240,180,41,.12); color: #b8860b; }
+
+    .email-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .email-link:hover { text-decoration: underline; }
+
+    .feedback-text { color: var(--muted); font-size: .82rem; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+    .feedback-text:hover { white-space: normal; overflow: visible; }
+
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 14px; }
+
+    .loading { text-align: center; padding: 40px; color: var(--muted); }
+
+    .date-cell { font-size: .8rem; color: var(--muted); white-space: nowrap; }
+
+    /* SEARCH */
+    .search-input {
+      padding: 8px 14px; border: 1.5px solid var(--line); border-radius: 10px;
+      background: var(--panel-soft); color: var(--text); font-size: .88rem; outline: none; width: 200px;
+    }
+    .search-input:focus { border-color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .search-input { width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="./whiteboard.html">← Mission Control</a>
+  <h1>🎯 Nova Leads</h1>
+  <span id="lastRefresh" style="font-size:.8rem;color:var(--muted)"></span>
+</div>
+
+<div class="wrap">
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card">
+      <small>Total Leads</small>
+      <strong id="statTotal">—</strong>
+      <span>All time</span>
+    </div>
+    <div class="stat-card">
+      <small>Today</small>
+      <strong id="statToday">—</strong>
+      <span>New leads today</span>
+    </div>
+    <div class="stat-card">
+      <small>Avg Interest Saved</small>
+      <strong id="statInterest">—</strong>
+      <span>Per user</span>
+    </div>
+    <div class="stat-card">
+      <small>Top Plan</small>
+      <strong id="statPlan">—</strong>
+      <span>Most chosen method</span>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-card">
+    <div class="table-header">
+      <h2>All Leads</h2>
+      <input class="search-input" id="searchInput" placeholder="🔍 Search leads…" oninput="filterLeads()"/>
+      <button class="refresh-btn" onclick="loadLeads()">↻ Refresh</button>
+      <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+    </div>
+    <div id="tableWrap">
+      <div class="loading">Loading leads...</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const API = 'https://nova-api.jhobbie2020.workers.dev/leads?token=visionary2026';
+  let allLeads = [];
+
+  async function loadLeads() {
+    document.getElementById('tableWrap').innerHTML = '<div class="loading">⏳ Loading...</div>';
+    try {
+      const res = await fetch(API);
+      const data = await res.json();
+      allLeads = Array.isArray(data) ? data : [];
+      document.getElementById('lastRefresh').textContent = 'Updated ' + new Date().toLocaleTimeString();
+      renderStats(allLeads);
+      renderTable(allLeads);
+    } catch(e) {
+      document.getElementById('tableWrap').innerHTML = `<div class="empty-state"><div class="icon">❌</div><p>Could not load leads: ${e.message}</p></div>`;
+    }
+  }
+
+  function renderStats(leads) {
+    document.getElementById('statTotal').textContent = leads.length;
+
+    const today = new Date().toDateString();
+    const todayCount = leads.filter(l => new Date(l.created_at).toDateString() === today).length;
+    document.getElementById('statToday').textContent = todayCount;
+
+    const withInterest = leads.filter(l => l.interest_saved > 0);
+    const avgInterest = withInterest.length > 0
+      ? Math.round(withInterest.reduce((s,l) => s + l.interest_saved, 0) / withInterest.length)
+      : 0;
+    document.getElementById('statInterest').textContent = avgInterest > 0 ? '$' + avgInterest.toLocaleString() : '—';
+
+    const planCounts = {};
+    leads.forEach(l => { if(l.recommended_plan) planCounts[l.recommended_plan] = (planCounts[l.recommended_plan]||0)+1; });
+    const topPlan = Object.entries(planCounts).sort((a,b) => b[1]-a[1])[0];
+    document.getElementById('statPlan').textContent = topPlan ? topPlan[0] : '—';
+  }
+
+  function getPlanClass(plan) {
+    if (!plan) return '';
+    const p = plan.toLowerCase();
+    if (p.includes('snow')) return 'plan-snowball';
+    if (p.includes('aval')) return 'plan-avalanche';
+    return 'plan-hybrid';
+  }
+
+  function renderTable(leads) {
+    if (leads.length === 0) {
+      document.getElementById('tableWrap').innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🎯</div>
+          <h3>No leads yet</h3>
+          <p>Share www.visionarysolution.net/debt.html to start collecting leads.</p>
+        </div>`;
+      return;
+    }
+
+    const rows = leads.map(l => {
+      const date = l.created_at ? new Date(l.created_at).toLocaleDateString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+      const plan = l.recommended_plan || '—';
+      const planClass = getPlanClass(plan);
+      const feedback = l.feedback ? l.feedback.replace(/</g,'&lt;') : '—';
+      const months = l.months_to_free ? `${l.months_to_free} mo` : '—';
+      const saved = l.interest_saved ? '$' + Number(l.interest_saved).toLocaleString() : '—';
+
+      return `<tr>
+        <td><strong>${l.first_name || '—'}</strong></td>
+        <td><a class="email-link" href="mailto:${l.email}">${l.email}</a></td>
+        <td>${l.phone || '<span style="color:var(--muted)">—</span>'}</td>
+        <td>${plan !== '—' ? `<span class="plan-badge ${planClass}">${plan}</span>` : '—'}</td>
+        <td>${months}</td>
+        <td>${saved}</td>
+        <td class="feedback-text" title="${feedback}">${feedback}</td>
+        <td class="date-cell">${date}</td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('tableWrap').innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>Email</th><th>Phone</th><th>Plan</th><th>Payoff</th><th>Interest Saved</th><th>Feedback</th><th>Date</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  function filterLeads() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    if (!q) { renderTable(allLeads); return; }
+    const filtered = allLeads.filter(l =>
+      (l.first_name||'').toLowerCase().includes(q) ||
+      (l.email||'').toLowerCase().includes(q) ||
+      (l.feedback||'').toLowerCase().includes(q) ||
+      (l.recommended_plan||'').toLowerCase().includes(q)
+    );
+    renderTable(filtered);
+  }
+
+  function exportCSV() {
+    if (!allLeads.length) return alert('No leads to export');
+    const headers = ['Name','Email','Phone','Plan','Months to Free','Interest Saved','Feedback','Date'];
+    const rows = allLeads.map(l => [
+      l.first_name, l.email, l.phone||'', l.recommended_plan||'',
+      l.months_to_free||'', l.interest_saved||'', (l.feedback||'').replace(/,/g,';'), l.created_at
+    ].map(v => `"${v}"`).join(','));
+    const csv = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `nova-leads-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  loadLeads();
+  // Auto-refresh every 2 minutes
+  setInterval(loadLeads, 120000);
+</script>
+</body>
+</html>

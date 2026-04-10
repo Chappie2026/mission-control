@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Council | Mission Control</title>
+  <style>
+    :root{--bg:#f4f8fb;--panel:#fff;--text:#102a43;--muted:#486581;--line:#d9e2ec;--accent:#2cb1bc;--shadow:0 16px 40px rgba(16,42,67,.08);--radius:22px;--max:1000px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:var(--bg)}
+    .top-bar{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:100}
+    .top-bar a{color:var(--accent);font-weight:700;font-size:.95rem}
+    .top-bar h1{font-size:1.1rem;margin:0}
+    .wrap{max-width:var(--max);margin:0 auto;padding:32px 28px;display:grid;gap:20px;grid-template-columns:1fr 1fr}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+    .card h2{font-size:1.05rem;margin:0 0 14px}
+    .card ul{margin:0;padding-left:18px}
+    .card li{color:var(--muted);font-size:.88rem;margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="top-bar"><a href="./whiteboard.html">← Mission Control</a><h1>Council Chamber</h1></div>
+  <div class="wrap">
+    <div class="card"><h2>👥 Members</h2><ul><li>Jason (Owner)</li><li>Chappie (CEO / Head Agent)</li><li>Department heads only</li></ul></div>
+    <div class="card"><h2>🎯 Purpose</h2><ul><li>Ideas and best practices</li><li>Cross-department alignment</li><li>Policy and standards</li><li>Go/no-go decisions</li></ul></div>
+    <div class="card"><h2>📋 Current Agenda</h2><ul><li>Phase 1 Debt AI scope confirmation</li><li>Agent operations best practices</li><li>Visionary Solution positioning</li><li>Tool trust policy</li></ul></div>
+    <div class="card"><h2>⚖️ Ground Rules</h2><ul><li>Chappie operates as CEO</li><li>Delegate to sub-agents when needed</li><li>Every plan needs 3 backup layers</li><li>No live deploys without Jason approval</li></ul></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Intake Queue | Mission Control</title>
+  <style>
+    :root{--bg:#f4f8fb;--panel:#fff;--text:#102a43;--muted:#486581;--line:#d9e2ec;--accent:#2cb1bc;--shadow:0 16px 40px rgba(16,42,67,.08);--radius:22px;--max:800px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:var(--bg)}
+    .top-bar{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:100}
+    .top-bar a{color:var(--accent);font-weight:700;font-size:.95rem}
+    .top-bar h1{font-size:1.1rem;margin:0}
+    .wrap{max-width:var(--max);margin:0 auto;padding:32px 28px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+    .card h2{font-size:1.05rem;margin:0 0 16px}
+    textarea{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:.9rem;color:var(--text);background:var(--bg);resize:vertical;min-height:100px;outline:none}
+    textarea:focus{border-color:var(--accent)}
+    button{padding:11px 22px;background:var(--accent);color:white;border:none;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:10px}
+    .item{padding:13px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+    .item:last-child{border-bottom:none}
+    .empty{color:var(--muted);font-size:.9rem;text-align:center;padding:30px}
+  </style>
+</head>
+<body>
+  <div class="top-bar"><a href="./whiteboard.html">← Mission Control</a><h1>Intake Queue</h1></div>
+  <div class="wrap">
+    <div class="card">
+      <h2>➕ Add New Work Item</h2>
+      <textarea id="newItem" placeholder="Describe the task, idea, or request — Chappie will pick it up…"></textarea>
+      <button onclick="addItem()">Add to Queue</button>
+    </div>
+    <div class="card">
+      <h2>📥 Pending Items</h2>
+      <div id="queue"><div class="empty">Queue is empty — add something above or tell Chappie directly in chat.</div></div>
+    </div>
+  </div>
+  <script>
+    const STORAGE_KEY = 'mc_intake';
+    function loadItems(){
+      const items = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+      const q = document.getElementById('queue');
+      if(items.length===0){q.innerHTML='<div class="empty">Queue is empty — add something above or tell Chappie directly in chat.</div>';return;}
+      q.innerHTML = items.map((t,i)=>`<div class="item">${t} <span style="float:right;color:#d64545;cursor:pointer;font-size:.8rem" onclick="removeItem(${i})">Remove</span></div>`).join('');
+    }
+    function addItem(){
+      const t=document.getElementById('newItem');
+      if(!t.value.trim())return;
+      const items=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+      items.push(t.value.trim());
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(items));
+      t.value='';
+      loadItems();
+    }
+    function removeItem(i){
+      const items=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+      items.splice(i,1);
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(items));
+      loadItems();
+    }
+    loadItems();
+  </script>
+</body>
+</html>

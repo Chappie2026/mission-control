@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasks | Mission Control</title>
+  <style>
+    :root { --bg: #f4f8fb; --panel: #ffffff; --panel-soft: #eef4f8; --text: #102a43; --muted: #486581; --line: #d9e2ec; --accent: #2cb1bc; --success: #1f9d55; --danger: #d64545; --shadow: 0 16px 40px rgba(16,42,67,0.08); --radius: 22px; --max: 1000px; }
+    [data-theme="dark"] { --bg: #0d1b2a; --panel: #1a2d42; --panel-soft: #1e3350; --text: #e2eaf3; --muted: #8aa5bf; --line: #2a3f55; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--text); background: var(--bg); }
+    .top-bar { background: var(--panel); border-bottom: 1px solid var(--line); padding: 14px 28px; display: flex; align-items: center; gap: 18px; position: sticky; top: 0; z-index: 100; }
+    .top-bar a { color: var(--accent); font-weight: 700; font-size: 0.95rem; }
+    .top-bar h1 { font-size: 1.1rem; margin: 0; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 32px 28px; display: grid; gap: 20px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .card-head { padding: 18px 22px; border-bottom: 1px solid var(--line); }
+    .card-head h2 { font-size: 1.05rem; margin: 0 0 4px; }
+    .card-head p { color: var(--muted); font-size: 0.85rem; margin: 0; }
+    .task-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 22px; border-bottom: 1px solid var(--line); }
+    .task-item:last-child { border-bottom: none; }
+    .task-check { width: 22px; height: 22px; border: 2px solid var(--accent); border-radius: 6px; cursor: pointer; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .task-check.done { background: var(--accent); }
+    .task-check.done::after { content: "✓"; color: white; font-size: 0.75rem; font-weight: 900; }
+    .task-info strong { display: block; font-size: 0.92rem; margin-bottom: 4px; }
+    .task-info span { font-size: 0.82rem; color: var(--muted); }
+    .tag { display: inline-flex; padding: 3px 9px; border-radius: 999px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-left: 8px; }
+    .teal { background: rgba(44,177,188,0.12); color: #1a8a94; }
+    .gold { background: rgba(240,180,41,0.12); color: #b8860b; }
+    .red { background: rgba(214,69,69,0.1); color: #b91c1c; }
+    .green { background: rgba(31,157,85,0.1); color: #167a43; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="./whiteboard.html">← Mission Control</a>
+    <h1>Task Detail View</h1>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <div class="card-head"><h2>📋 Jason Tasks <span class="tag red">Needs You</span></h2><p>Only Jason can complete these.</p></div>
+      <div class="task-item"><div class="task-check" onclick="this.classList.toggle('done')"></div><div class="task-info"><strong>Provide public contact details</strong><span>Name, phone, email to show on visionarysolution.net</span></div></div>
+      <div class="task-item"><div class="task-check" onclick="this.classList.toggle('done')"></div><div class="task-info"><strong>Confirm Debt AI Phase 1 scope</strong><span>What to build first: chat interface, debt tracker, or payoff calculator?</span></div></div>
+      <div class="task-item"><div class="task-check" onclick="this.classList.toggle('done')"></div><div class="task-info"><strong>Review live debt website</strong><span>Visit www.visionarysolution.net and confirm current state before redesign</span></div></div>
+      <div class="task-item"><div class="task-check" onclick="this.classList.toggle('done')"></div><div class="task-info"><strong>Review Mission Control upgrade</strong><span>Check all new features: folders, search, dark mode, approvals</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>⚡ Chappie Active Tasks <span class="tag teal">In Progress</span></h2><p>What Chappie is working on now.</p></div>
+      <div class="task-item"><div class="task-check" onclick="this.classList.toggle('done')"></div><div class="task-info"><strong>Debt AI Helper — Phase 1 Build</strong><span>Chat interface, debt organizer, payoff calculator, savings transition</span></div></div>
+      <div class="task-item"><div class="task-check" onclick="this.classList.toggle('done')"></div><div class="task-info"><strong>Mission Control — All pages</strong><span>Build out projects, tasks, calendar, council, departments, risk, intake, memory, trading desk pages</span></div></div>
+      <div class="task-item"><div class="task-check" onclick="this.classList.toggle('done')"></div><div class="task-info"><strong>Debt website redesign</strong><span>Redesign www.visionarysolution.net with AI chat + debt tools</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>✅ Completed <span class="tag green">Done</span></h2><p>Finished tasks with confirmed output.</p></div>
+      <div class="task-item"><div class="task-check done"></div><div class="task-info"><strong>Shell access unlocked on cpx62</strong><span>tools.exec.security=full, ask=off configured. Exec works without per-command approval.</span></div></div>
+      <div class="task-item"><div class="task-check done"></div><div class="task-info"><strong>Cloudflare API connected</strong><span>Global API key stored. Both Pages projects accessible.</span></div></div>
+      <div class="task-item"><div class="task-check done"></div><div class="task-info"><strong>Mission Control upgraded</strong><span>Brain folders, search bar, dark mode, approval queue, Jason tasks box deployed.</span></div></div>
+      <div class="task-item"><div class="task-check done"></div><div class="task-info"><strong>Ground rules saved</strong><span>CEO/COO model + 3-layer backup plan logged in memory.</span></div></div>
+    </div>
+  </div>
+</body>
+</html>

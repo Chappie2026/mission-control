@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Dashboards</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #102a43;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .nav {
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: #2cb1bc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        h1 {
+            color: #102a43;
+        }
+        h2 {
+            color: #2cb1bc;
+            font-size: 1.2em;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #d9e2ec;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .card-header span {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.active {
+            background-color: #2cb1bc;
+            color: white;
+        }
+        .status.setting-up {
+            background-color: #f0b429;
+            color: white;
+        }
+        .status.queued {
+            background-color: #d9e2ec;
+            color: #102a43;
+        }
+        .tagline {
+            color: #627d98;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .details {
+            display: none;
+            margin-top: 15px;
+        }
+        .details.active {
+            display: block;
+        }
+        .section {
+            margin-bottom: 15px;
+        }
+        .section h4 {
+            margin: 0 0 5px 0;
+            font-size: 1em;
+        }
+        .section ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .section li {
+            margin-bottom: 5px;
+        }
+        .sub-depts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .sub-dept {
+            background-color: #d9e2ec;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .last-updated {
+            font-size: 0.8em;
+            color: #627d98;
+            margin-top: 10px;
+        }
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="whiteboard.html">← Mission Control</a>
+        </div>
+        <h1>Department Dashboards</h1>
+        <h2>Click any department to see what they're working on</h2>
+        <div class="grid">
+            <!-- Department 1: Finance -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>💰</span>
+                    <h3>Finance Department</h3>
+                    <span class="status active">Active</span>
+                </div>
+                <p class="tagline">Oversees all money products and AI tools</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Debt AI</span>
+                    <span class="sub-dept">Business AI</span>
+                    <span class="sub-dept">Calculators</span>
+                    <span class="sub-dept">Reporting</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>Nova backend live on Cloudflare Workers</li>
+                            <li>AI Gateway, D1, Workers AI, and R2 set up</li>
+                            <li>Debt calculator live</li>
+                            <li>Competitor research complete</li>
+                            <li>Pricing strategy defined</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Internal-only Nova simulation testing (2,500 scenarios)</li>
+                            <li>Fixing plan parsing and chart rendering issues</li>
+                            <li>Refining Nova's conversation flow</li>
+                            <li>Shared intelligence architecture between Debt AI and Business AI</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>Pro tier pricing ($12.99/mo)</li>
+                            <li>PDF plan export</li>
+                            <li>Production-grade session and lead analytics</li>
+                            <li>Business AI (Phase 2)</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 2: Build -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>🏗️</span>
+                    <h3>Build Department</h3>
+                    <span class="status active">Active</span>
+                </div>
+                <p class="tagline">Builds and deploys all websites and tools</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Frontend</span>
+                    <span class="sub-dept">Backend</span>
+                    <span class="sub-dept">Deployment</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>visionarysolution.net homepage</li>
+                            <li>Nova debt.html v3</li>
+                            <li>Mission Control all 9 pages</li>
+                            <li>Cloudflare Pages connected</li>
+                            <li>Production branch deploy issue fixed (master now serving correctly)</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Nova UI improvements based on internal testing</li>
+                            <li>Mission Control updates for expanded 10-department system</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>Real backend API (Node.js/Postgres)</li>
+                            <li>User accounts</li>
+                            <li>Mobile app</li>
+                            <li>Git repo backup for Pages</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 3: Marketing -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>📢</span>
+                    <h3>Marketing Department</h3>
+                    <span class="status setting-up">Setting Up</span>
+                </div>
+                <p class="tagline">Drives users to Nova and builds the brand</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Content</span>
+                    <span class="sub-dept">SEO</span>
+                    <span class="sub-dept">Social Media</span>
+                    <span class="sub-dept">Growth</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>Homepage live with clear messaging</li>
+                            <li>Nova sharing paused until internal testing passes</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Setting up content strategy</li>
+                            <li>Identifying first TikTok/YouTube angle</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>"I let an AI build my debt payoff plan" viral angle</li>
+                            <li>Reddit posts in r/personalfinance</li>
+                            <li>Email list building</li>
+                            <li>Influencer partnerships</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 4: Research -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>🔍</span>
+                    <h3>Research Department</h3>
+                    <span class="status active">Active</span>
+                </div>
+                <p class="tagline">Knows the market better than our competitors do</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Competitor Intel</span>
+                    <span class="sub-dept">Market Research</span>
+                    <span class="sub-dept">Product Research</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>Full competitor analysis (Cleo, YNAB, Rocket Money, Monarch, Copilot, Bright Money)</li>
+                            <li>Pricing strategy</li>
+                            <li>Gap analysis</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Monitoring competitor updates</li>
+                            <li>Tracking user feedback themes</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>SMB analytics market research for Phase 2</li>
+                            <li>XRPL/fintech opportunity analysis</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 5: Trading -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>📈</span>
+                    <h3>Trading Department</h3>
+                    <span class="status active">Active</span>
+                </div>
+                <p class="tagline">Building profitable trading systems</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Trader Joe</span>
+                    <span class="sub-dept">Macro Scout</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>BTCC paper trading API connected</li>
+                            <li>Kraken read-only access</li>
+                            <li>Macro Scout monitoring markets</li>
+                            <li>Trader Joe research pack complete</li>
+                            <li>Trader Joe learning roadmap written</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Translating research into paper-trading strategy rules</li>
+                            <li>Studying EMA, RSI, MACD, backtesting, and crypto-specific patterns</li>
+                            <li>Defining paper-trading validation process before any live criteria</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>Defining position sizing rules before going live</li>
+                            <li>First live trade criteria</li>
+                            <li>Risk management rules</li>
+                            <li>30-day paper trade scorecard</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 6: Security -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>🔒</span>
+                    <h3>Security Department</h3>
+                    <span class="status active">Active</span>
+                </div>
+                <p class="tagline">Keeps our systems locked down tight</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Server Security</span>
+                    <span class="sub-dept">App Security</span>
+                    <span class="sub-dept">Compliance</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>Initial server scan (only port 22 open — solid)</li>
+                            <li>OpenSSH 9.6p1 current</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>App security review of Nova (XSS, injection checks)</li>
+                            <li>Cloudflare security settings review</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>GDPR compliance for user data</li>
+                            <li>Privacy policy for Nova</li>
+                            <li>Rotating Cloudflare API key to scoped token</li>
+                            <li>Setting up git backup (currently High risk)</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 7: Red Team -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>🕵️</span>
+                    <h3>Red Team Department</h3>
+                    <span class="status setting-up">Setting Up</span>
+                </div>
+                <p class="tagline">We hack ourselves so others can't</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Internal Pen Testing</span>
+                    <span class="sub-dept">Bug Bounty</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>Department playbook written</li>
+                            <li>Tools mapped (nmap installed)</li>
+                            <li>First port scan of our server complete</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Jason signing up for HackerOne and Bugcrowd accounts</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>First bug bounty target program</li>
+                            <li>PortSwigger Web Academy training</li>
+                            <li>Automating weekly scans of our own systems</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 8: Legal -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>⚖️</span>
+                    <h3>Legal Department</h3>
+                    <span class="status setting-up">Setting Up</span>
+                </div>
+                <p class="tagline">Protects the business as it grows</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Terms & Privacy</span>
+                    <span class="sub-dept">IP & Business</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>"Educational purposes only" disclaimer on Nova</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Drafting proper Terms of Service and Privacy Policy for Nova</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>Business entity formation (LLC)</li>
+                            <li>Trademark on "Nova" and "Visionary Solution"</li>
+                            <li>Financial advice liability coverage</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 9: Data & Analytics -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>📊</span>
+                    <h3>Data & Analytics Department</h3>
+                    <span class="status setting-up">Setting Up</span>
+                </div>
+                <p class="tagline">Turns user behavior into product improvements</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">Product Analytics</span>
+                    <span class="sub-dept">Business Intelligence</span>
+                    <span class="sub-dept">Reporting</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>Lead and session infrastructure designed around D1 + Workers API</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Planning analytics implementation</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>Cloudflare Web Analytics (free, privacy-friendly)</li>
+                            <li>Tracking Nova completion rates</li>
+                            <li>Drop-off points</li>
+                            <li>Which plan users choose most</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+            <!-- Department 10: Maintenance -->
+            <div class="card" onclick="toggleDetails(this)">
+                <div class="card-header">
+                    <span>🔧</span>
+                    <h3>Maintenance Department</h3>
+                    <span class="status active">Active</span>
+                </div>
+                <p class="tagline">Keeps the empire clean and running</p>
+                <div class="sub-depts">
+                    <span class="sub-dept">System Hygiene</span>
+                    <span class="sub-dept">Uptime Monitoring</span>
+                </div>
+                <div class="details">
+                    <div class="section">
+                        <h4>✅ Done</h4>
+                        <ul>
+                            <li>Memory files current</li>
+                            <li>Workspace organized</li>
+                            <li>HEARTBEAT.md active</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>🔄 In Progress</h4>
+                        <ul>
+                            <li>Periodic memory review and MEMORY.md updates</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h4>💭 Thinking About</h4>
+                        <ul>
+                            <li>Automated uptime monitoring for both sites</li>
+                            <li>Alerting Jason on Telegram if sites go down</li>
+                            <li>Scheduled weekly cleanup</li>
+                        </ul>
+                    </div>
+                    <p class="last-updated">Last updated: 2026-04-02</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleDetails(card) {
+            const details = card.querySelector('.details');
+            details.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

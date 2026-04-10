@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Risk Register | Mission Control</title>
+  <style>
+    :root{--bg:#f4f8fb;--panel:#fff;--text:#102a43;--muted:#486581;--line:#d9e2ec;--accent:#2cb1bc;--shadow:0 16px 40px rgba(16,42,67,.08);--radius:22px;--max:1000px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:var(--bg)}
+    .top-bar{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:100}
+    .top-bar a{color:var(--accent);font-weight:700;font-size:.95rem}
+    .top-bar h1{font-size:1.1rem;margin:0}
+    .wrap{max-width:var(--max);margin:0 auto;padding:32px 28px;display:grid;gap:16px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+    .card-info h3{font-size:.95rem;margin:0 0 6px}
+    .card-info p{font-size:.84rem;color:var(--muted);margin:0}
+    .badge{padding:5px 14px;border-radius:999px;font-size:.75rem;font-weight:800;white-space:nowrap}
+    .high{background:rgba(214,69,69,.12);color:#b91c1c}
+    .med{background:rgba(240,180,41,.12);color:#b8860b}
+    .low{background:rgba(31,157,85,.1);color:#167a43}
+  </style>
+</head>
+<body>
+  <div class="top-bar"><a href="./whiteboard.html">← Mission Control</a><h1>Risk Register</h1></div>
+  <div class="wrap">
+    <div class="card"><div class="card-info"><h3>No Git Backup for Cloudflare Pages</h3><p>Files only exist locally on cpx62. No git repo backing the deployments. If server wipes, sites are gone.</p></div><span class="badge high">High</span></div>
+    <div class="card"><div class="card-info"><h3>Global API Key Exposure</h3><p>Using Cloudflare Global API key — has full account access. Should rotate to a scoped token.</p></div><span class="badge med">Medium</span></div>
+    <div class="card"><div class="card-info"><h3>Exec Ask=Off Policy</h3><p>Shell commands run without per-command approval. Mitigated by trusted single-operator boundary.</p></div><span class="badge med">Medium</span></div>
+    <div class="card"><div class="card-info"><h3>No Contact Details on Website</h3><p>visionarysolution.net has no public contact info — can't convert visitors to clients.</p></div><span class="badge med">Medium</span></div>
+    <div class="card"><div class="card-info"><h3>BTCC Paper Trading Only</h3><p>Trader Joe is in paper trading mode — no real money at risk currently.</p></div><span class="badge low">Low</span></div>
+  </div>
+</body>
+</html>

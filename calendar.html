@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Calendar | Mission Control</title>
+  <style>
+    :root{--bg:#f4f8fb;--panel:#fff;--text:#102a43;--muted:#486581;--line:#d9e2ec;--accent:#2cb1bc;--shadow:0 16px 40px rgba(16,42,67,.08);--radius:22px;--max:900px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:var(--bg)}
+    .top-bar{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:100}
+    .top-bar a{color:var(--accent);font-weight:700;font-size:.95rem}
+    .top-bar h1{font-size:1.1rem;margin:0}
+    .wrap{max-width:var(--max);margin:0 auto;padding:32px 28px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+    .card h2{font-size:1.05rem;margin:0 0 16px}
+    .row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+    .row:last-child{border-bottom:none}
+    .row span:last-child{color:var(--accent);font-weight:700;font-size:.84rem}
+    .asap{color:#d64545!important}
+  </style>
+</head>
+<body>
+  <div class="top-bar"><a href="./whiteboard.html">← Mission Control</a><h1>Task Calendar</h1></div>
+  <div class="wrap">
+    <div class="card">
+      <h2>📅 April 2026 — Key Milestones</h2>
+      <div class="row"><span>Jason reviews Debt AI scope</span><span class="asap">ASAP</span></div>
+      <div class="row"><span>Jason provides contact details</span><span class="asap">ASAP</span></div>
+      <div class="row"><span>Mission Control all pages live</span><span>Apr 2</span></div>
+      <div class="row"><span>Debt website redesign — Staging</span><span>Apr 5</span></div>
+      <div class="row"><span>Phase 1 Debt AI — Design Complete</span><span>Apr 7</span></div>
+      <div class="row"><span>Debt AI MVP — Live</span><span>Apr 14</span></div>
+      <div class="row"><span>Phase 2 Business AI — Start</span><span>Apr 15</span></div>
+    </div>
+  </div>
+</body>
+</html>

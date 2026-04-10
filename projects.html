@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Mission Control</title>
+  <style>
+    :root { --bg: #f4f8fb; --panel: #ffffff; --panel-soft: #eef4f8; --text: #102a43; --muted: #486581; --line: #d9e2ec; --accent: #2cb1bc; --accent-2: #f0b429; --accent-3: #7c3aed; --danger: #d64545; --success: #1f9d55; --shadow: 0 16px 40px rgba(16,42,67,0.08); --radius: 22px; --max: 1200px; }
+    [data-theme="dark"] { --bg: #0d1b2a; --panel: #1a2d42; --panel-soft: #1e3350; --text: #e2eaf3; --muted: #8aa5bf; --line: #2a3f55; --bg-body: linear-gradient(180deg,#0d1b2a 0%,#0a1520 100%); }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--text); background: var(--bg); }
+    .top-bar { background: var(--panel); border-bottom: 1px solid var(--line); padding: 14px 28px; display: flex; align-items: center; gap: 18px; position: sticky; top: 0; z-index: 100; }
+    .top-bar a { color: var(--accent); font-weight: 700; font-size: 0.95rem; }
+    .top-bar h1 { font-size: 1.1rem; margin: 0; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 32px 28px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .card h2 { font-size: 1.1rem; margin: 10px 0 8px; }
+    .card p { color: var(--muted); font-size: 0.88rem; margin: 0 0 14px; }
+    .card ul { margin: 0; padding-left: 18px; }
+    .card li { font-size: 0.84rem; color: var(--muted); margin-bottom: 5px; }
+    .tag { display: inline-flex; padding: 4px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
+    .teal { background: rgba(44,177,188,0.12); color: #1a8a94; }
+    .gold { background: rgba(240,180,41,0.12); color: #b8860b; }
+    .purple { background: rgba(124,58,237,0.1); color: #6025c0; }
+    .green { background: rgba(31,157,85,0.1); color: #167a43; }
+    .red { background: rgba(214,69,69,0.1); color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="./whiteboard.html">← Mission Control</a>
+    <h1>Project Screen</h1>
+  </div>
+  <div class="wrap">
+    <div class="grid">
+      <div class="card">
+        <span class="tag teal">Website</span>
+        <h2>Visionary Solution</h2>
+        <p>Public-facing umbrella brand and website front door.</p>
+        <ul>
+          <li>Homepage visually upgraded</li>
+          <li>Founder/trust layer added</li>
+          <li>Needs contact details and live QA</li>
+          <li><strong>Owner:</strong> Chappie + Jason</li>
+          <li><strong>Status:</strong> Active</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag gold">Phase 1</span>
+        <h2>Debt AI Helper</h2>
+        <p>AI-driven personal debt payoff + savings advisor chat interface.</p>
+        <ul>
+          <li>Chat interface design in progress</li>
+          <li>Debt organizer + graphs planned</li>
+          <li>Savings transition flow planned</li>
+          <li><strong>Owner:</strong> Chappie</li>
+          <li><strong>Status:</strong> Building</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag purple">Offer</span>
+        <h2>TrueNorth</h2>
+        <p>Bottleneck-finding and mission-control style business support offer.</p>
+        <ul>
+          <li>Direction locked</li>
+          <li>Needs exact packaging and deliverables</li>
+          <li><strong>Owner:</strong> Jason + Chappie</li>
+          <li><strong>Status:</strong> Defining</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag green">Systems</span>
+        <h2>Agent Operations</h2>
+        <p>Internal AI org design, safety rules, reporting loops, and live execution systems.</p>
+        <ul>
+          <li>Phase 1 complete</li>
+          <li>Shell + Cloudflare access active</li>
+          <li>Phase 2 moving into live operations</li>
+          <li><strong>Owner:</strong> Chappie</li>
+          <li><strong>Status:</strong> Active</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag gold">Phase 2</span>
+        <h2>Business Bottleneck AI</h2>
+        <p>AI helper for SMBs — finds cashflow leaks, bottlenecks, overspending.</p>
+        <ul>
+          <li>Queued after Phase 1 launch</li>
+          <li>Target: restaurants, HVAC, trades</li>
+          <li><strong>Owner:</strong> Chappie</li>
+          <li><strong>Status:</strong> Queued</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag teal">Trading</span>
+        <h2>Trader Joe</h2>
+        <p>Live trading desk with Macro Scout for market context and BTCC paper trading.</p>
+        <ul>
+          <li>BTCC paper trading API configured</li>
+          <li>Kraken read-only access active</li>
+          <li>Macro Scout researching</li>
+          <li><strong>Owner:</strong> Chappie</li>
+          <li><strong>Status:</strong> Active</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
