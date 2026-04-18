@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind Board - Visionary Solution</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0e1a; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; overflow: hidden; height: 100vh; }
+.toolbar { position: fixed; top: 0; left: 0; right: 0; height: 48px; background: rgba(15,20,35,0.95); border-bottom: 1px solid rgba(99,102,241,0.3); display: flex; align-items: center; padding: 0 16px; gap: 12px; z-index: 100; backdrop-filter: blur(12px); }
+.toolbar h1 { font-size: 16px; font-weight: 700; background: linear-gradient(135deg, #7c5cfc, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.toolbar .sep { width: 1px; height: 24px; background: rgba(255,255,255,0.1); }
+.toolbar .stats { font-size: 12px; color: #94a3b8; }
+.toolbar .btn { padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(99,102,241,0.3); background: rgba(99,102,241,0.1); color: #a5b4fc; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+.toolbar .btn:hover { background: rgba(99,102,241,0.25); }
+.toolbar .btn.active { background: rgba(99,102,241,0.35); border-color: #6366f1; color: #e0e7ff; }
+.canvas-container { position: fixed; top: 48px; left: 0; right: 0; bottom: 0; overflow: hidden; cursor: grab; }
+.canvas-container.dragging { cursor: grabbing; }
+.canvas { position: absolute; transform-origin: 0 0; }
+.grid-bg { position: absolute; top: -10000px; left: -10000px; width: 20000px; height: 20000px; background-image: radial-gradient(circle, rgba(99,102,241,0.08) 1px, transparent 1px); background-size: 30px 30px; pointer-events: none; }
+svg.edges { position: absolute; top: -10000px; left: -10000px; width: 20000px; height: 20000px; pointer-events: none; }
+svg.edges path { fill: none; stroke-width: 2; opacity: 0.6; }
+svg.edges path:hover { opacity: 1; stroke-width: 3; }
+.node { position: absolute; min-width: 140px; max-width: 220px; background: rgba(15,23,42,0.9); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; padding: 12px; cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(8px); user-select: none; }
+.node:hover { border-color: rgba(99,102,241,0.6); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.2); }
+.node.selected { border-color: #6366f1; box-shadow: 0 0 20px rgba(99,102,241,0.3); }
+.node .icon { font-size: 20px; margin-bottom: 4px; }
+.node .name { font-size: 13px; font-weight: 600; color: #e2e8f0; line-height: 1.3; }
+.node .meta { font-size: 10px; color: #64748b; margin-top: 4px; display: flex; gap: 6px; flex-wrap: wrap; }
+.node .meta .tag { background: rgba(99,102,241,0.15); color: #a5b4fc; padding: 1px 6px; border-radius: 4px; }
+.node .status-dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; top: 8px; right: 8px; }
+.node .status-dot.active { background: #10b981; box-shadow: 0 0 8px #10b981; }
+.node .status-dot.in_progress { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation: pulse 2s infinite; }
+.node .status-dot.queued { background: #64748b; }
+.node .status-dot.blocked { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+.edge-label { position: absolute; font-size: 9px; color: #64748b; background: rgba(15,23,42,0.9); padding: 1px 6px; border-radius: 4px; pointer-events: none; white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+.detail-panel { position: fixed; right: -380px; top: 48px; bottom: 0; width: 380px; background: rgba(15,20,35,0.98); border-left: 1px solid rgba(99,102,241,0.2); padding: 24px; overflow-y: auto; transition: right 0.3s ease; z-index: 50; backdrop-filter: blur(16px); }
+.detail-panel.open { right: 0; }
+.detail-panel h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.detail-panel .type-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-bottom: 16px; }
+.detail-panel .section { margin-bottom: 16px; }
+.detail-panel .section h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px; }
+.detail-panel .prop-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+.detail-panel .prop-row .key { color: #94a3b8; }
+.detail-panel .prop-row .val { color: #e2e8f0; text-align: right; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+.detail-panel .rel-item { display: flex; align-items: center; gap: 8px; padding: 8px; margin-bottom: 6px; background: rgba(99,102,241,0.05); border-radius: 8px; font-size: 12px; cursor: pointer; transition: background 0.2s; }
+.detail-panel .rel-item:hover { background: rgba(99,102,241,0.15); }
+.detail-panel .rel-item .arrow { color: #6366f1; font-size: 14px; }
+.detail-panel .rel-item .rel-type { color: #a5b4fc; font-size: 10px; }
+.minimap { position: fixed; bottom: 16px; right: 16px; width: 180px; height: 120px; background: rgba(15,20,35,0.9); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; overflow: hidden; z-index: 40; }
+.minimap canvas { width: 100%; height: 100%; }
+.legend { position: fixed; bottom: 16px; left: 16px; background: rgba(15,20,35,0.9); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; padding: 12px; font-size: 11px; z-index: 40; }
+.legend h4 { font-size: 11px; color: #64748b; margin-bottom: 6px; text-transform: uppercase; }
+.legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.legend-item .dot { width: 10px; height: 10px; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>🧠 Mind Board</h1>
+  <div class="sep"></div>
+  <div class="stats" id="stats">Loading...</div>
+  <div class="sep"></div>
+  <button class="btn active" onclick="setFilter('all')" id="btn-all">All</button>
+  <button class="btn" onclick="setFilter('departments')" id="btn-departments">Departments</button>
+  <button class="btn" onclick="setFilter('tasks')" id="btn-tasks">Tasks</button>
+  <button class="btn" onclick="setFilter('policies')" id="btn-policies">Policies</button>
+  <div class="sep"></div>
+  <button class="btn" onclick="centerView()">⊙ Center</button>
+  <button class="btn" onclick="fitAll()">⊞ Fit All</button>
+</div>
+
+<div class="canvas-container" id="container">
+  <div class="canvas" id="canvas">
+    <div class="grid-bg"></div>
+    <svg class="edges" id="edges-svg"></svg>
+  </div>
+</div>
+
+<div class="detail-panel" id="detail-panel">
+  <div id="detail-content"></div>
+</div>
+
+<div class="legend">
+  <h4>Edge Types</h4>
+  <div class="legend-item"><div class="dot" style="background:#6366f1"></div> manages / owns</div>
+  <div class="legend-item"><div class="dot" style="background:#f59e0b"></div> depends_on</div>
+  <div class="legend-item"><div class="dot" style="background:#10b981"></div> data flow</div>
+  <div class="legend-item"><div class="dot" style="background:#ec4899"></div> feeds / enables</div>
+  <div class="legend-item"><div class="dot" style="background:#64748b"></div> other</div>
+</div>
+
+<script>
+const GRAPH_URL = '/api/brain-graph.json';
+let entities = {}, relations = [], nodePositions = {};
+let panX = 0, panY = 0, zoom = 1;
+let isDragging = false, dragStartX, dragStartY, panStartX, panStartY;
+let selectedNode = null, currentFilter = 'all';
+let nodeElements = {};
+
+const TYPE_COLORS = {
+  Organization: '#6366f1', Person: '#ec4899', Project: '#10b981', Department: '#3b82f6',
+  Task: '#f59e0b', Event: '#8b5cf6', Document: '#94a3b8', Policy: '#ef4444'
+};
+
+const REL_COLORS = {
+  manages: '#6366f1', owned_by: '#6366f1', depends_on: '#f59e0b',
+  feeds: '#ec4899', enables: '#ec4899', provides_brand_to: '#10b981',
+  generates_content_for: '#10b981', routes_to: '#06b6d4', monitors: '#06b6d4',
+  has_department: '#6366f1', has_leader: '#ec4899', targets: '#8b5cf6',
+  defines: '#94a3b8', assigned_to: '#f59e0b', delivers_to: '#10b981'
+};
+
+async function loadGraph() {
+  try {
+    const res = await fetch(GRAPH_URL);
+    const data = await res.json();
+    entities = data.entities || {};
+    relations = data.relations || [];
+    layoutNodes();
+    render();
+    updateStats();
+  } catch(e) {
+    console.error('Failed to load graph:', e);
+    document.getElementById('stats').textContent = 'Error loading graph';
+  }
+}
+
+function layoutNodes() {
+  const cx = 5000, cy = 5000;
+  const depts = Object.values(entities).filter(e => e.type === 'Project' || e.type === 'Department');
+  const tasks = Object.values(entities).filter(e => e.type === 'Task');
+  const orgs = Object.values(entities).filter(e => e.type === 'Organization');
+  const people = Object.values(entities).filter(e => e.type === 'Person');
+  const policies = Object.values(entities).filter(e => e.type === 'Policy');
+  const events = Object.values(entities).filter(e => e.type === 'Event');
+  const docs = Object.values(entities).filter(e => e.type === 'Document');
+
+  // Org at center
+  orgs.forEach((e, i) => { nodePositions[e.id] = { x: cx, y: cy - 100 + i * 80 }; });
+
+  // People near center
+  people.forEach((e, i) => { nodePositions[e.id] = { x: cx - 250, y: cy - 100 + i * 80 }; });
+
+  // Departments in a circle
+  const deptRadius = 300;
+  depts.forEach((e, i) => {
+    const angle = (2 * Math.PI * i / depts.length) - Math.PI / 2;
+    nodePositions[e.id] = { x: cx + Math.cos(angle) * deptRadius, y: cy + Math.sin(angle) * deptRadius };
+  });
+
+  // Tasks in outer ring, positioned near their owning department
+  tasks.forEach(e => {
+    const ownerRel = relations.find(r => r.from === e.id && r.rel === 'owned_by');
+    const parentId = ownerRel ? ownerRel.to : (depts[0]?.id || 'org_vs');
+    const parent = nodePositions[parentId] || { x: cx, y: cy };
+    const offsetAngle = Math.random() * Math.PI * 2;
+    const offsetR = 180 + Math.random() * 80;
+    nodePositions[e.id] = { x: parent.x + Math.cos(offsetAngle) * offsetR, y: parent.y + Math.sin(offsetAngle) * offsetR };
+  });
+
+  // Policies in a group
+  policies.forEach((e, i) => { nodePositions[e.id] = { x: cx + 350, y: cy - 100 + i * 80 }; });
+
+  // Events
+  events.forEach((e, i) => { nodePositions[e.id] = { x: cx - 400, y: cy + 200 + i * 80 }; });
+
+  // Documents
+  docs.forEach((e, i) => { nodePositions[e.id] = { x: cx + 400, y: cy + 200 + i * 80 }; });
+}
+
+function render() {
+  const canvas = document.getElementById('canvas');
+  const svg = document.getElementById('edges-svg');
+
+  // Clear existing nodes (keep grid and svg element)
+  Object.values(nodeElements).forEach(el => el.remove());
+  nodeElements = {};
+  svg.innerHTML = '';
+
+  // Filter
+  const visibleIds = new Set();
+  Object.entries(entities).forEach(([id, e]) => {
+    if (currentFilter === 'all') { visibleIds.add(id); return; }
+    if (currentFilter === 'departments' && (e.type === 'Project' || e.type === 'Department' || e.type === 'Organization' || e.type === 'Person')) { visibleIds.add(id); return; }
+    if (currentFilter === 'tasks' && (e.type === 'Task' || e.type === 'Event')) { visibleIds.add(id); return; }
+    if (currentFilter === 'policies' && (e.type === 'Policy' || e.type === 'Document')) { visibleIds.add(id); return; }
+  });
+
+  // Also include endpoints of visible relations
+  relations.forEach(r => {
+    if (visibleIds.has(r.from) || visibleIds.has(r.to)) { visibleIds.add(r.from); visibleIds.add(r.to); }
+  });
+
+  // Draw edges
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  svg.appendChild(defs);
+
+  relations.forEach(r => {
+    if (!visibleIds.has(r.from) || !visibleIds.has(r.to)) return;
+    const from = nodePositions[r.from], to = nodePositions[r.to];
+    if (!from || !to) return;
+
+    const color = REL_COLORS[r.rel] || '#64748b';
+    const markerId = `arrow-${r.rel.replace(/[^a-z]/gi,'')}`;
+    if (!document.getElementById(markerId)) {
+      const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+      marker.setAttribute('id', markerId);
+      marker.setAttribute('viewBox', '0 0 10 10');
+      marker.setAttribute('refX', '10'); marker.setAttribute('refY', '5');
+      marker.setAttribute('markerWidth', '6'); marker.setAttribute('markerHeight', '6');
+      marker.setAttribute('orient', 'auto-start-reverse');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+      path.setAttribute('fill', color);
+      marker.appendChild(path);
+      defs.appendChild(marker);
+    }
+
+    const fromCx = from.x + 10000, fromCy = from.y + 10000;
+    const toCx = to.x + 10000, toCy = to.y + 10000;
+    const dx = toCx - fromCx, dy = toCy - fromCy;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const offsetFrom = 70, offsetTo = 70;
+    const fx = fromCx + (dx/dist)*offsetFrom, fy = fromCy + (dy/dist)*offsetFrom;
+    const tx = toCx - (dx/dist)*offsetTo, ty = toCy - (dy/dist)*offsetTo;
+
+    // Bezier curve
+    const midX = (fx + tx) / 2, midY = (fy + ty) / 2;
+    const perpX = -(ty - fy) * 0.15, perpY = (tx - fx) * 0.15;
+    const cx1 = midX + perpX, cy1 = midY + perpY;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M ${fx} ${fy} Q ${cx1} ${cy1} ${tx} ${ty}`);
+    path.setAttribute('stroke', color);
+    path.setAttribute('marker-end', `url(#${markerId})`);
+    path.setAttribute('data-rel', r.rel);
+    svg.appendChild(path);
+
+    // Edge label
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'edge-label';
+    labelDiv.textContent = r.rel.replace(/_/g, ' ');
+    labelDiv.style.left = (cx1 + 10000 - 30) + 'px';
+    labelDiv.style.top = (cy1 + 10000 - 8) + 'px';
+    canvas.appendChild(labelDiv);
+  });
+
+  // Draw nodes
+  Object.entries(entities).forEach(([id, e]) => {
+    if (!visibleIds.has(id)) return;
+    const pos = nodePositions[id];
+    if (!pos) return;
+
+    const div = document.createElement('div');
+    div.className = 'node' + (selectedNode === id ? ' selected' : '');
+    div.style.left = (pos.x + 10000) + 'px';
+    div.style.top = (pos.y + 10000) + 'px';
+    div.style.borderColor = TYPE_COLORS[e.type] || '#64748b';
+    div.setAttribute('data-id', id);
+
+    const props = e.properties || {};
+    const icon = props.icon || (e.type === 'Organization' ? '🏢' : e.type === 'Person' ? '👤' : e.type === 'Department' ? '🏛️' : e.type === 'Task' ? '📋' : e.type === 'Event' ? '📅' : e.type === 'Policy' ? '📜' : e.type === 'Document' ? '📄' : '🔷');
+    const status = props.status || '';
+
+    let statusDot = '';
+    if (status === 'active') statusDot = '<div class="status-dot active"></div>';
+    else if (status === 'in_progress') statusDot = '<div class="status-dot in_progress"></div>';
+    else if (status === 'queued') statusDot = '<div class="status-dot queued"></div>';
+
+    let tags = '';
+    if (props.tags) {
+      tags = '<div class="meta">' + props.tags.slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('') + '</div>';
+    }
+
+    div.innerHTML = `${statusDot}<div class="icon">${icon}</div><div class="name">${props.name || e.id}</div>${tags}`;
+    div.onclick = (ev) => { ev.stopPropagation(); selectNode(id); };
+    canvas.appendChild(div);
+    nodeElements[id] = div;
+  });
+
+  updateTransform();
+}
+
+function selectNode(id) {
+  selectedNode = id;
+  Object.values(nodeElements).forEach(el => el.classList.remove('selected'));
+  if (nodeElements[id]) nodeElements[id].classList.add('selected');
+  showDetail(id);
+}
+
+function showDetail(id) {
+  const e = entities[id];
+  if (!e) return;
+  const panel = document.getElementById('detail-panel');
+  const content = document.getElementById('detail-content');
+  const props = e.properties || {};
+  const color = TYPE_COLORS[e.type] || '#64748b';
+
+  const incoming = relations.filter(r => r.to === id);
+  const outgoing = relations.filter(r => r.from === id);
+
+  let propsHtml = '';
+  Object.entries(props).forEach(([k, v]) => {
+    if (k === 'icon' || k === 'tags') return;
+    if (Array.isArray(v)) v = v.join(', ');
+    propsHtml += `<div class="prop-row"><span class="key">${k}</span><span class="val" title="${v}">${v}</span></div>`;
+  });
+
+  let relsHtml = '';
+  outgoing.forEach(r => {
+    const target = entities[r.to];
+    if (!target) return;
+    const tProps = target.properties || {};
+    relsHtml += `<div class="rel-item" onclick="selectNode('${r.to}')">
+      <span class="arrow">→</span>
+      <span><span class="rel-type">${r.rel.replace(/_/g,' ')}</span><br>${tProps.name || r.to}</span>
+    </div>`;
+  });
+  incoming.forEach(r => {
+    const source = entities[r.from];
+    if (!source) return;
+    const sProps = source.properties || {};
+    relsHtml += `<div class="rel-item" onclick="selectNode('${r.from}')">
+      <span class="arrow">←</span>
+      <span><span class="rel-type">${r.rel.replace(/_/g,' ')}</span><br>${sProps.name || r.from}</span>
+    </div>`;
+  });
+
+  content.innerHTML = `
+    <h2 style="color:${color}">${props.icon || ''} ${props.name || e.id}</h2>
+    <span class="type-badge" style="background:${color}22;color:${color}">${e.type}</span>
+    <div class="section">
+      <h3>Properties</h3>
+      ${propsHtml || '<div style="color:#64748b;font-size:12px">No properties</div>'}
+    </div>
+    <div class="section">
+      <h3>Connections (${incoming.length + outgoing.length})</h3>
+      ${relsHtml || '<div style="color:#64748b;font-size:12px">No connections</div>'}
+    </div>
+    <div class="section">
+      <h3>Raw ID</h3>
+      <div style="font-size:11px;color:#64748b;font-family:monospace">${e.id}</div>
+    </div>
+  `;
+  panel.classList.add('open');
+}
+
+function updateStats() {
+  const counts = {};
+  Object.values(entities).forEach(e => { counts[e.type] = (counts[e.type] || 0) + 1; });
+  const parts = Object.entries(counts).map(([t,c]) => `${c} ${t.toLowerCase()}${c>1?'s':''}`);
+  document.getElementById('stats').textContent = `${parts.join(' · ')} · ${relations.length} connections`;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.toolbar .btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + f)?.classList.add('active');
+  render();
+}
+
+function updateTransform() {
+  const canvas = document.getElementById('canvas');
+  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+}
+
+function centerView() {
+  panX = window.innerWidth / 2 - 5000 * zoom;
+  panY = window.innerHeight / 2 - 5000 * zoom;
+  updateTransform();
+}
+
+function fitAll() {
+  const positions = Object.values(nodePositions);
+  if (!positions.length) return;
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  positions.forEach(p => { minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x); minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y); });
+  const w = maxX - minX + 400, h = maxY - minY + 400;
+  const scaleX = (window.innerWidth - 80) / w, scaleY = (window.innerHeight - 120) / h;
+  zoom = Math.min(scaleX, scaleY, 1.5);
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+  panX = window.innerWidth / 2 - (cx + 10000) * zoom;
+  panY = (window.innerHeight - 48) / 2 - (cy + 10000) * zoom + 24;
+  updateTransform();
+}
+
+// Pan & zoom
+const container = document.getElementById('container');
+container.addEventListener('mousedown', e => {
+  if (e.target.closest('.node')) return;
+  isDragging = true; dragStartX = e.clientX; dragStartY = e.clientY;
+  panStartX = panX; panStartY = panY;
+  container.classList.add('dragging');
+});
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  panX = panStartX + (e.clientX - dragStartX);
+  panY = panStartY + (e.clientY - dragStartY);
+  updateTransform();
+});
+window.addEventListener('mouseup', () => { isDragging = false; container.classList.remove('dragging'); });
+container.addEventListener('wheel', e => {
+  e.preventDefault();
+  const rect = container.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const oldZoom = zoom;
+  zoom *= e.deltaY < 0 ? 1.1 : 0.9;
+  zoom = Math.max(0.2, Math.min(3, zoom));
+  panX = mx - (mx - panX) * (zoom / oldZoom);
+  panY = my - (my - panY) * (zoom / oldZoom);
+  updateTransform();
+}, { passive: false });
+
+// Click outside to close panel
+container.addEventListener('click', e => {
+  if (!e.target.closest('.node')) {
+    selectedNode = null;
+    Object.values(nodeElements).forEach(el => el.classList.remove('selected'));
+    document.getElementById('detail-panel').classList.remove('open');
+  }
+});
+
+// Auto-refresh every 60s
+setInterval(loadGraph, 60000);
+
+// Init
+loadGraph();
+setTimeout(fitAll, 500);
+</script>
+</body>

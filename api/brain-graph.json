@@ -1,0 +1,762 @@
+{
+  "entities": {
+    "org_vs": {
+      "id": "org_vs",
+      "type": "Organization",
+      "properties": {
+        "name": "Visionary Solution",
+        "type": "AI Business",
+        "description": "Full-stack AI business with departmental agents managed by Chappie orchestrator",
+        "dashboard": "mission.visionarysolutions.net/department-dashboards"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "chappie": {
+      "id": "chappie",
+      "type": "Person",
+      "properties": {
+        "name": "Chappie",
+        "role": "CEO Orchestrator",
+        "model": "github-copilot/claude-sonnet-4-5",
+        "description": "Central brain coordinating all departments with strict isolation and cost efficiency"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_nova": {
+      "id": "dept_nova",
+      "type": "Project",
+      "properties": {
+        "name": "Nova",
+        "status": "active",
+        "icon": "✨",
+        "color": "#7c5cfc",
+        "description": "AI workforce orchestration and task management",
+        "tags": [
+          "core",
+          "ai"
+        ],
+        "model": "openrouter/google/gemma-4-26b-a4b-it",
+        "workspace": "/root/sites/nova-worker"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_traderjoe": {
+      "id": "dept_traderjoe",
+      "type": "Project",
+      "properties": {
+        "name": "Trader Joe",
+        "status": "active",
+        "icon": "📊",
+        "color": "#10b981",
+        "description": "Automated trading and market analysis using local Gemma 4",
+        "tags": [
+          "trading",
+          "finance"
+        ],
+        "model": "local-gemma-4",
+        "workspace": "/root/sites/trader-joe"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_missionctrl": {
+      "id": "dept_missionctrl",
+      "type": "Project",
+      "properties": {
+        "name": "Mission Control",
+        "status": "active",
+        "icon": "🎯",
+        "color": "#f59e0b",
+        "description": "Dashboard and monitoring hub for all departments",
+        "tags": [
+          "ops",
+          "dashboard"
+        ],
+        "workspace": "/root/sites/mission-control",
+        "url": "mission.visionarysolutions.net"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_visionary": {
+      "id": "dept_visionary",
+      "type": "Project",
+      "properties": {
+        "name": "Visionary Consultant",
+        "status": "active",
+        "icon": "💡",
+        "color": "#3b82f6",
+        "description": "Client-facing consulting and debt help platform",
+        "tags": [
+          "consulting",
+          "fintech"
+        ],
+        "workspace": "/root/sites/visionary-consultant"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_visionarysol": {
+      "id": "dept_visionarysol",
+      "type": "Project",
+      "properties": {
+        "name": "Visionary Solution",
+        "status": "active",
+        "icon": "🏢",
+        "color": "#8b5cf6",
+        "description": "Main business site and corporate presence",
+        "tags": [
+          "corporate",
+          "brand"
+        ],
+        "workspace": "/root/sites/visionary-solution"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_video": {
+      "id": "dept_video",
+      "type": "Project",
+      "properties": {
+        "name": "Video Generator",
+        "status": "active",
+        "icon": "🎬",
+        "color": "#ef4444",
+        "description": "AI video generation pipeline for YouTube Shorts and content",
+        "tags": [
+          "content",
+          "youtube"
+        ],
+        "workspace": "/root/sites/video-generator"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_orchestrator": {
+      "id": "dept_orchestrator",
+      "type": "Project",
+      "properties": {
+        "name": "Orchestrator",
+        "status": "active",
+        "icon": "🎼",
+        "color": "#6366f1",
+        "description": "Workflow orchestration and agent routing engine",
+        "tags": [
+          "ops",
+          "agents"
+        ],
+        "workspace": "/root/sites/orchestrator"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "task_dashboard_live": {
+      "id": "task_dashboard_live",
+      "type": "Task",
+      "properties": {
+        "title": "Make Department Dashboards Live and Dynamic",
+        "status": "in_progress",
+        "priority": "high",
+        "assignee": "chappie",
+        "description": "Auto-refreshing dashboard with live status, cost tracking, and Mind Board"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "task_nova_redesign": {
+      "id": "task_nova_redesign",
+      "type": "Task",
+      "properties": {
+        "title": "Nova Debt Page Redesign",
+        "status": "in_progress",
+        "priority": "high",
+        "assignee": "dept_nova",
+        "description": "Brand identity, logo, chat-first UX for Nova debt help platform"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "task_youtube_shorts": {
+      "id": "task_youtube_shorts",
+      "type": "Task",
+      "properties": {
+        "title": "YouTube Shorts Automation Pipeline",
+        "status": "in_progress",
+        "priority": "medium",
+        "assignee": "dept_video",
+        "description": "Automated short-form video generation and upload to YouTube"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "task_trading_engine": {
+      "id": "task_trading_engine",
+      "type": "Task",
+      "properties": {
+        "title": "Trading Engine Optimization",
+        "status": "active",
+        "priority": "medium",
+        "assignee": "dept_traderjoe",
+        "description": "Optimize Gemma 4 local trading with improved signal analysis"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "task_brain_layer": {
+      "id": "task_brain_layer",
+      "type": "Task",
+      "properties": {
+        "title": "Brain Layer and Mind Board Integration",
+        "status": "in_progress",
+        "priority": "high",
+        "assignee": "chappie",
+        "description": "Structured knowledge graph + visual whiteboard for Mission Control"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "task_cloudflare_ai": {
+      "id": "task_cloudflare_ai",
+      "type": "Task",
+      "properties": {
+        "title": "Cloudflare AI Provider Setup",
+        "status": "queued",
+        "priority": "high",
+        "assignee": "chappie",
+        "description": "Configure Cloudflare AI Gateway as native provider for department routine tasks"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "event_monday_golive": {
+      "id": "event_monday_golive",
+      "type": "Event",
+      "properties": {
+        "title": "Monday Go-Live",
+        "start": "2026-04-20T09:00:00Z",
+        "description": "Target launch for Nova debt page and dashboard live status"
+      },
+      "created": "2026-04-18T08:30:00Z",
+      "updated": "2026-04-18T08:30:00Z"
+    },
+    "dept_marketing": {
+      "id": "dept_marketing",
+      "type": "Department",
+      "properties": {
+        "name": "marketing-claw",
+        "slug": "marketing-claw",
+        "scope": "Copywriting, visuals, pain-point messaging, conversion optimization, branding",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/marketing-claw"
+      }
+    },
+    "dept_build": {
+      "id": "dept_build",
+      "type": "Department",
+      "properties": {
+        "name": "build-claw",
+        "slug": "build-claw",
+        "scope": "Website builds, code changes, deployments, technical implementation",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/build-claw"
+      }
+    },
+    "dept_finance": {
+      "id": "dept_finance",
+      "type": "Department",
+      "properties": {
+        "name": "finance-claw",
+        "slug": "finance-claw",
+        "scope": "Money, debt, budgeting, Nova Debt Helper financial logic",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/finance-claw"
+      }
+    },
+    "dept_research": {
+      "id": "dept_research",
+      "type": "Department",
+      "properties": {
+        "name": "research-claw",
+        "slug": "research-claw",
+        "scope": "Market research, competitor analysis, pain-point validation",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/research-claw"
+      }
+    },
+    "dept_trading": {
+      "id": "dept_trading",
+      "type": "Department",
+      "properties": {
+        "name": "trading-claw",
+        "slug": "trading-claw",
+        "scope": "Automated trading, market analysis, signal generation",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/trading-claw"
+      }
+    },
+    "dept_security": {
+      "id": "dept_security",
+      "type": "Department",
+      "properties": {
+        "name": "security-claw",
+        "slug": "security-claw",
+        "scope": "Infrastructure security, vulnerability assessment, hardening",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/security-claw"
+      }
+    },
+    "dept_legal": {
+      "id": "dept_legal",
+      "type": "Department",
+      "properties": {
+        "name": "legal-claw",
+        "slug": "legal-claw",
+        "scope": "Compliance, terms, privacy policies, regulatory review",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/legal-claw"
+      }
+    },
+    "dept_data": {
+      "id": "dept_data",
+      "type": "Department",
+      "properties": {
+        "name": "data-claw",
+        "slug": "data-claw",
+        "scope": "Data pipelines, analytics, reporting, dashboards",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/data-claw"
+      }
+    },
+    "dept_maintenance": {
+      "id": "dept_maintenance",
+      "type": "Department",
+      "properties": {
+        "name": "maintenance-claw",
+        "slug": "maintenance-claw",
+        "scope": "System upkeep, updates, monitoring, infrastructure health",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/maintenance-claw"
+      }
+    },
+    "dept_redteam": {
+      "id": "dept_redteam",
+      "type": "Department",
+      "properties": {
+        "name": "red-team-claw",
+        "slug": "red-team-claw",
+        "scope": "Penetration testing, attack simulation, security auditing",
+        "status": "active",
+        "workspace": "/root/.openclaw/workspace/departments/red-team-claw"
+      }
+    },
+    "policy_tiering": {
+      "id": "policy_tiering",
+      "type": "Policy",
+      "properties": {
+        "scope": "memory",
+        "rule": "HOT memory for current session context; WARM for stable preferences and config; COLD (MEMORY.md) for long-term archive",
+        "enforcement": "memory_tiering_skill"
+      }
+    },
+    "task_brain_upgrade": {
+      "id": "task_brain_upgrade",
+      "type": "Task",
+      "properties": {
+        "title": "Upgrade Brain Layer — add tiering, compaction, schema fix",
+        "status": "in_progress",
+        "priority": "high",
+        "assignee": "chappie",
+        "description": "Add memory-tiering skill, fix ontology schema for Department type, normalize graph JSONL format, add HOT/WARM/COLD tiers"
+      }
+    }
+  },
+  "relations": [
+    {
+      "from": "org_vs",
+      "rel": "has_leader",
+      "to": "chappie",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_nova",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_traderjoe",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_missionctrl",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_visionary",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_visionarysol",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_video",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_orchestrator",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_nova",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_traderjoe",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_missionctrl",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_visionary",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_video",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_orchestrator",
+      "properties": {}
+    },
+    {
+      "from": "task_dashboard_live",
+      "rel": "owned_by",
+      "to": "dept_missionctrl",
+      "properties": {}
+    },
+    {
+      "from": "task_nova_redesign",
+      "rel": "owned_by",
+      "to": "dept_nova",
+      "properties": {}
+    },
+    {
+      "from": "task_nova_redesign",
+      "rel": "depends_on",
+      "to": "dept_visionary",
+      "properties": {
+        "reason": "Needs brand assets from Visionary Consultant"
+      }
+    },
+    {
+      "from": "task_youtube_shorts",
+      "rel": "owned_by",
+      "to": "dept_video",
+      "properties": {}
+    },
+    {
+      "from": "task_youtube_shorts",
+      "rel": "depends_on",
+      "to": "dept_nova",
+      "properties": {
+        "reason": "Nova AI generates video scripts"
+      }
+    },
+    {
+      "from": "task_trading_engine",
+      "rel": "owned_by",
+      "to": "dept_traderjoe",
+      "properties": {}
+    },
+    {
+      "from": "task_brain_layer",
+      "rel": "owned_by",
+      "to": "chappie",
+      "properties": {}
+    },
+    {
+      "from": "task_brain_layer",
+      "rel": "feeds",
+      "to": "task_dashboard_live",
+      "properties": {
+        "reason": "Brain graph powers Mind Board visualization"
+      }
+    },
+    {
+      "from": "task_cloudflare_ai",
+      "rel": "owned_by",
+      "to": "chappie",
+      "properties": {}
+    },
+    {
+      "from": "task_cloudflare_ai",
+      "rel": "enables",
+      "to": "policy_cost",
+      "properties": {
+        "reason": "Cloudflare AI setup enables tiered model routing policy"
+      }
+    },
+    {
+      "from": "event_monday_golive",
+      "rel": "targets",
+      "to": "task_nova_redesign",
+      "properties": {}
+    },
+    {
+      "from": "event_monday_golive",
+      "rel": "targets",
+      "to": "task_dashboard_live",
+      "properties": {}
+    },
+    {
+      "from": "dept_missionctrl",
+      "rel": "monitors",
+      "to": "dept_nova",
+      "properties": {}
+    },
+    {
+      "from": "dept_missionctrl",
+      "rel": "monitors",
+      "to": "dept_traderjoe",
+      "properties": {}
+    },
+    {
+      "from": "dept_missionctrl",
+      "rel": "monitors",
+      "to": "dept_video",
+      "properties": {}
+    },
+    {
+      "from": "dept_orchestrator",
+      "rel": "routes_to",
+      "to": "dept_nova",
+      "properties": {}
+    },
+    {
+      "from": "dept_orchestrator",
+      "rel": "routes_to",
+      "to": "dept_traderjoe",
+      "properties": {}
+    },
+    {
+      "from": "dept_orchestrator",
+      "rel": "routes_to",
+      "to": "dept_video",
+      "properties": {}
+    },
+    {
+      "from": "dept_visionary",
+      "rel": "provides_brand_to",
+      "to": "dept_nova",
+      "properties": {
+        "data_flow": "brand assets, logos, style guide"
+      }
+    },
+    {
+      "from": "dept_nova",
+      "rel": "generates_content_for",
+      "to": "dept_video",
+      "properties": {
+        "data_flow": "video scripts, AI prompts"
+      }
+    },
+    {
+      "from": "doc_soul",
+      "rel": "defines",
+      "to": "chappie",
+      "properties": {}
+    },
+    {
+      "from": "doc_agents",
+      "rel": "defines",
+      "to": "policy_cost",
+      "properties": {}
+    },
+    {
+      "from": "doc_agents",
+      "rel": "defines",
+      "to": "policy_isolation",
+      "properties": {}
+    },
+    {
+      "from": "task_nova_redesign",
+      "rel": "assigned_to",
+      "to": "dept_marketing",
+      "properties": {
+        "role": "creative brief, copy, brand direction"
+      }
+    },
+    {
+      "from": "task_nova_redesign",
+      "rel": "assigned_to",
+      "to": "dept_build",
+      "properties": {
+        "role": "implementation, code, deployment"
+      }
+    },
+    {
+      "from": "dept_marketing",
+      "rel": "delivers_to",
+      "to": "dept_build",
+      "properties": {
+        "context": "Nova hero brief → build implementation"
+      }
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_marketing",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_build",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_finance",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_research",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_trading",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_security",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_legal",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_data",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_maintenance",
+      "properties": {}
+    },
+    {
+      "from": "org_vs",
+      "rel": "has_department",
+      "to": "dept_redteam",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_marketing",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_build",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_finance",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_research",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_trading",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_security",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_legal",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_data",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_maintenance",
+      "properties": {}
+    },
+    {
+      "from": "chappie",
+      "rel": "manages",
+      "to": "dept_redteam",
+      "properties": {}
+    },
+    {
+      "from": "task_brain_upgrade",
+      "rel": "owned_by",
+      "to": "chappie",
+      "properties": {}
+    }
+  ]
+}
