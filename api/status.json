@@ -1,22 +1,22 @@
 {
-  "timestamp": "2026-04-18T10:10:01Z",
-  "lastUpdate": "1776507001",
+  "timestamp": "2026-04-18T13:00:07Z",
+  "lastUpdate": "1776517207",
   "systemMetrics": {
     "diskUsage": "7%",
-    "diskAvailable": "538G",
-    "memoryUsed": "19Gi",
+    "diskAvailable": "537G",
+    "memoryUsed": "11Gi",
     "memoryTotal": "30Gi",
-    "memoryPercent": 62
+    "memoryPercent": 38
   },
   "departments": [
     {
       "name": "Nova",
-      "status": "setting-up",
+      "status": "active",
       "description": "AI workforce orchestration and task management",
       "tags": ["core", "ai"],
-      "lastActivity": "2026-04-18T10:10:01Z",
+      "lastActivity": "2026-04-18T13:00:07Z",
       "metrics": {
-        "recentFiles": 0
+        "recentFiles": 2
       }
     },
     {
@@ -24,9 +24,9 @@
       "status": "active",
       "description": "Automated trading and market analysis",
       "tags": ["trading", "docker"],
-      "lastActivity": "2026-04-18T10:10:01Z",
+      "lastActivity": "2026-04-18T13:00:07Z",
       "metrics": {
-        "containerStatus": "Up 2 hours"
+        "containerStatus": "Up 4 hours"
       }
     },
     {
@@ -34,7 +34,7 @@
       "status": "active",
       "description": "Central coordination and model serving",
       "tags": ["core", "llm"],
-      "lastActivity": "2026-04-18T10:10:01Z",
+      "lastActivity": "2026-04-18T13:00:07Z",
       "metrics": {
         "serviceStatus": "active"
       }
@@ -44,89 +44,89 @@
       "status": "setting-up",
       "description": "AI video content creation and automation",
       "tags": ["content", "media"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Visionary Consultant",
       "status": "setting-up",
       "description": "Client consultation and advisory services",
       "tags": ["client", "consulting"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Finance",
       "status": "queued",
       "description": "Financial operations and budget management",
       "tags": ["finance", "ops"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Marketing",
       "status": "queued",
       "description": "Brand strategy and content marketing",
       "tags": ["marketing", "content"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Research",
       "status": "queued",
       "description": "Market research and competitive analysis",
       "tags": ["research", "intelligence"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Trading",
       "status": "queued",
       "description": "Investment strategies and portfolio management",
       "tags": ["trading", "finance"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Security",
       "status": "queued",
       "description": "Security monitoring and threat detection",
       "tags": ["security", "ops"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Legal",
       "status": "queued",
       "description": "Compliance and legal documentation",
       "tags": ["legal", "compliance"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Data & Analytics",
       "status": "queued",
       "description": "Data pipeline and business intelligence",
       "tags": ["data", "analytics"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     },
     {
       "name": "Maintenance",
       "status": "queued",
       "description": "System maintenance and infrastructure",
       "tags": ["ops", "infrastructure"],
-      "lastActivity": "2026-04-18T10:10:01Z"
+      "lastActivity": "2026-04-18T13:00:07Z"
     }
   ],
   "activityFeed": [
     {
-      "timestamp": "2026-04-18T10:10:01Z",
+      "timestamp": "2026-04-18T13:00:07Z",
       "department": "Trader Joe",
       "event": "Container running for 4+ hours",
       "type": "status"
     },
     {
-      "timestamp": "2026-04-18T10:10:01Z",
+      "timestamp": "2026-04-18T13:00:07Z",
       "department": "Orchestrator",
       "event": "Ollama service active",
       "type": "status"
     },
     {
-      "timestamp": "2026-04-18T10:10:01Z",
+      "timestamp": "2026-04-18T13:00:07Z",
       "department": "System",
-      "event": "Disk: 7% used, 538G available | Memory: 19Gi / 30Gi (62%)",
+      "event": "Disk: 7% used, 537G available | Memory: 11Gi / 30Gi (38%)",
       "type": "metrics"
     }
   ]

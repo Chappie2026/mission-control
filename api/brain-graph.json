@@ -210,13 +210,13 @@
       "type": "Task",
       "properties": {
         "title": "Brain Layer and Mind Board Integration",
-        "status": "in_progress",
+        "status": "completed",
         "priority": "high",
         "assignee": "chappie",
         "description": "Structured knowledge graph + visual whiteboard for Mission Control"
       },
       "created": "2026-04-18T08:30:00Z",
-      "updated": "2026-04-18T08:30:00Z"
+      "updated": "2026-04-18T12:00:00Z"
     },
     "task_cloudflare_ai": {
       "id": "task_cloudflare_ai",
@@ -366,10 +366,49 @@
       "type": "Task",
       "properties": {
         "title": "Upgrade Brain Layer — add tiering, compaction, schema fix",
-        "status": "in_progress",
+        "status": "completed",
         "priority": "high",
         "assignee": "chappie",
         "description": "Add memory-tiering skill, fix ontology schema for Department type, normalize graph JSONL format, add HOT/WARM/COLD tiers"
+      }
+    },
+    "dept_medic": {
+      "id": "dept_medic",
+      "type": "Department",
+      "name": "Doc Holliday (Medic Department)",
+      "slug": "medic-claw",
+      "scope": "Virus/malware scanning & removal, rootkit detection, system health diagnostics, quarantine & recovery, log forensics",
+      "status": "active",
+      "icon": "🩺"
+    },
+    "event_security_hardening": {
+      "id": "event_security_hardening",
+      "type": "Event",
+      "properties": {
+        "title": "Security Hardening",
+        "start": "2026-04-18T10:43:00Z",
+        "description": "SSH key-only, nginx localhost, fail2ban, OpenClaw config hardened"
+      }
+    },
+    "task_traderjoe_upgrade": {
+      "id": "task_traderjoe_upgrade",
+      "type": "Task",
+      "properties": {
+        "title": "Trader Joe Cost Basis + 1-min Scan",
+        "status": "completed",
+        "priority": "medium",
+        "assignee": "dept_trading",
+        "description": "Added cost basis/fees tracking, 1-min scan interval, Brave Search news per coin"
+      }
+    },
+    "blocker_btcc_api": {
+      "id": "blocker_btcc_api",
+      "type": "Issue",
+      "properties": {
+        "title": "BTCC API Unreachable from Hetzner",
+        "description": "Port 9081 geo-blocked from Germany, needs Asia proxy (NordVPN/VPS) or exchange switch",
+        "status": "open",
+        "severity": "high"
       }
     }
   },
@@ -757,6 +796,34 @@
       "rel": "owned_by",
       "to": "chappie",
       "properties": {}
+    },
+    {
+      "from": "event_security_hardening",
+      "rel": "completed_by",
+      "to": "chappie",
+      "properties": {}
+    },
+    {
+      "from": "task_traderjoe_upgrade",
+      "rel": "owned_by",
+      "to": "dept_trading",
+      "properties": {}
+    },
+    {
+      "from": "blocker_btcc_api",
+      "rel": "blocks",
+      "to": "task_trading_engine",
+      "properties": {
+        "reason": "Cannot go live on BTCC without Asia proxy"
+      }
+    },
+    {
+      "from": "blocker_btcc_api",
+      "rel": "affects",
+      "to": "dept_traderjoe",
+      "properties": {
+        "impact": "Paper trading only, no live execution"
+      }
     }
   ]
 }
